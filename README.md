@@ -1,4 +1,4 @@
-# BurnHope
+# BurnHop
 
 BurnHop - v1.0
 
