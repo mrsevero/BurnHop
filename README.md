@@ -17,4 +17,4 @@ Banco de dados para os usuários? (LDAP)
 
 Java / JavaScript / HTML-CSS
 
-![image](https://prnt.sc/u5x0k2)
+[![burnhope.jpg](https://i.postimg.cc/zvdgmLhK/burnhope.jpg)](https://postimg.cc/1Vqtw3J3)
