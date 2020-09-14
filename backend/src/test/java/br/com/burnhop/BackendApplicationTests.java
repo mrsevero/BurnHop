@@ -1,4 +1,4 @@
-package br.com.burnhop.backend;
+package br.com.burnhop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
