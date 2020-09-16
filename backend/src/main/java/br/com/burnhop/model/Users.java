@@ -2,13 +2,15 @@ package br.com.burnhop.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     private String name;
 
@@ -16,11 +18,18 @@ public class Users {
 
     private Date data_nasc;
 
-    private Date created_on;
+    private Timestamp created_on;
 
     @OneToOne(targetEntity=Login.class, fetch=FetchType.EAGER)
     @JoinColumn(name="login_id")
     private Login login;
+
+    public Users(String name, String username, Date data_nasc, Timestamp created_on) {
+        this.name = name;
+        this.username = username;
+        this.data_nasc = data_nasc;
+        this.created_on = created_on;
+    }
 
     public int getId() {
         return id;
@@ -54,11 +63,11 @@ public class Users {
         this.data_nasc = data_nasc;
     }
 
-    public Date getCreated_on() {
+    public Timestamp getCreated_on() {
         return created_on;
     }
 
-    public void setCreated_on(Date created_on) {
+    public void setCreated_on(Timestamp created_on) {
         this.created_on = created_on;
     }
 

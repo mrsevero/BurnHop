@@ -1,9 +1,11 @@
 package br.com.burnhop.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class Login {
 
     @Id
@@ -13,6 +15,13 @@ public class Login {
     private String email;
 
     private String password;
+
+    public Login(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public Login() {}
 
     public int getId() {
         return id;
