@@ -19,16 +19,19 @@ public class UsersResource {
 
     @PostMapping(value = "/users")
     public ResponseEntity<String> createUser() {
+        // TODO: Criar método para criar usuário.
         return new ResponseEntity<>("Usuário criado\n", HttpStatus.OK);
     }
 
     @GetMapping("/users/{email}")
     public ResponseEntity<String> getUser(@PathVariable(value = "email") String email) {
+        // TODO: Criar método para devolver um usuário baseado em seu email.
         return new ResponseEntity<>("Usuário:" + email + "\n", HttpStatus.OK);
     }
 
     @GetMapping("/users")
     public ResponseEntity<String> getAllUsers() {
+        // TODO: Criar método para devolver todos os usuários. Utilizar findAll do CrudRepository
         return new ResponseEntity<>("Todos os usuários\n", HttpStatus.OK);
     }
 }
