@@ -13,7 +13,7 @@ public class Users {
     private int id;
 
     private String name;
-
+    //ToDo remover username tabelas e código
     private String username;
 
     private Date data_nasc;

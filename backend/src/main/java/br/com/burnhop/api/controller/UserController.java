@@ -23,29 +23,35 @@ public class UserController {
     }
 
     public Users createUser(String name, String username, String email, String pwd, String date) throws NoSuchAlgorithmException {
-        Login login1 = new Login(email, hashPassword(pwd));
-        login_repository.save(login1);
+        Login login = getUserByEmail(email);
+        if(login == null){
+            Login login1 = new Login(email, hashPassword(pwd));
+            login_repository.save(login1);
+            Date data_nasc = Date.valueOf(date);
+            Timestamp time = new Timestamp(System.currentTimeMillis());
+            Users user = new Users(name, username, data_nasc, time);
+            user.setLogin(login1);
+            user_repository.save(user);
 
-        /* TODO: Criar método para criar usuário.*/
-        Date data_nasc = Date.valueOf(date);
-        Timestamp time = new Timestamp(System.currentTimeMillis());
-        Users user = new Users(name, username, data_nasc, time);
-        user.setLogin(login1);
-        user_repository.save(user);
-
-        return user;
+            return user;
+        }
+        return null;
     }
 
     public boolean authenticateUser(String email, String password) throws NoSuchAlgorithmException {
 
         Login login = getUserByEmail(email);
+        if(login == null){
+            return false;
+        }
         String hashPassword = hashPassword(password);
 
         return MessageDigest.isEqual(hashPassword.getBytes(), login.getPassword().getBytes());
     }
 
     public Login getUserByEmail(String email) {
-        return login_repository.findByEmail(email);
+        Login login = login_repository.findByEmail(email);
+        return login;
     }
 
     private String hashPassword(String password) throws NoSuchAlgorithmException {

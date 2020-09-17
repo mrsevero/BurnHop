@@ -35,6 +35,9 @@ public class UsersResource {
      @RequestParam("data_nasc") String date, @RequestParam("email") String email, @RequestParam("pwd") String pwd) throws NoSuchAlgorithmException {
 
         Users user = userController.createUser(name, username, email, pwd, date);
+        if (user == null) {
+            return new ResponseEntity<>("Usuário já cadastrado\n", HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<>(user+"\n", HttpStatus.OK);
     }
 
@@ -46,9 +49,9 @@ public class UsersResource {
         boolean authenticate = userController.authenticateUser(email, password);
 
         if(authenticate)
-            return new ResponseEntity<>("Autorizado", HttpStatus.OK);
-
-        return new ResponseEntity<>("Não autorizado", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Autorizado\n", HttpStatus.OK);
+        //ToDo tratar mensagem de email não cadastrado e senha incorreta
+        return new ResponseEntity<>("Não autorizado\n", HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/{email}")
@@ -56,7 +59,7 @@ public class UsersResource {
             @PathVariable(value = "email") String email) {
 
         Login login = userController.getUserByEmail(email);
-
+        //ToDo retornar Usuário e tratar mensagem email não cadastrado
         return new ResponseEntity<>("Usuário:" + login.getPassword() + "\n", HttpStatus.OK);
     }
 }
