@@ -1,5 +1,9 @@
 package br.com.burnhop;
 
+import java.sql.Timestamp;
+import java.sql.Date;
+import br.com.burnhop.model.Users;
+
 import br.com.burnhop.model.Login;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.UsersRepository;
@@ -16,7 +20,7 @@ public class BurnhopApplication {
 	}
 
 	@Bean
-	ApplicationRunner init(LoginRepository repository) {
+	ApplicationRunner init(LoginRepository repository, UsersRepository repository2) {
 
 		return args -> {
 			try {
@@ -24,6 +28,12 @@ public class BurnhopApplication {
 				Login login2 = new Login("joaomaiszikaqueowanderson@outlook.com", "123@");
 				repository.save(login1);
 				repository.save(login2);
+
+				Timestamp time = new Timestamp(System.currentTimeMillis());
+				Date data_nasc = new Date(1999,1,28);
+				Users user = new Users("Wanderson", "wandsu", data_nasc, time);	
+				repository2.save(user);
+				System.out.println("User ID: " + user.getId());
 			}
 			catch (Exception e) {
 				e.printStackTrace();
