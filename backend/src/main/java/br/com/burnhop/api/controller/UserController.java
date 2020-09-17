@@ -36,6 +36,18 @@ public class UserController {
         return user;
     }
 
+    public boolean authenticateUser(String email, String password) throws NoSuchAlgorithmException {
+
+        Login login = getUserByEmail(email);
+        String hashPassword = hashPassword(password);
+
+        return MessageDigest.isEqual(hashPassword.getBytes(), login.getPassword().getBytes());
+    }
+
+    public Login getUserByEmail(String email) {
+        return login_repository.findByEmail(email);
+    }
+
     private String hashPassword(String password) throws NoSuchAlgorithmException {
 
         MessageDigest crypt = MessageDigest.getInstance("SHA-1");

@@ -24,6 +24,10 @@ public class Users {
     @JoinColumn(name="login_id")
     private Login login;
 
+    public Users () {
+        
+    }
+
     public Users(String name, String username, Date data_nasc, Timestamp created_on) {
         this.name = name;
         this.username = username;
@@ -77,5 +81,10 @@ public class Users {
 
     public void setLogin(Login login) {
         this.login = login;
+    }
+
+    @Override
+    public String toString(){
+        return "Nome: "+this.getName()+"\nEmail: "+this.getLogin().getEmail()+"\nData de criação: "+this.getCreated_on();
     }
 }

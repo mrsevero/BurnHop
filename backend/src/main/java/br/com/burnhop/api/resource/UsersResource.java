@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 
 @RestController()
+@RequestMapping("/users")
 public class UsersResource {
 
     UserController userController;
@@ -29,18 +30,30 @@ public class UsersResource {
         userController = new UserController(login_repository, user_repository);
     }
 
-    @PostMapping(value = "/users")
+    @PostMapping(value = "/create")
     public ResponseEntity<String> createUser(@RequestParam("name") String name, @RequestParam("username") String username,
      @RequestParam("data_nasc") String date, @RequestParam("email") String email, @RequestParam("pwd") String pwd) throws NoSuchAlgorithmException {
 
         Users user = userController.createUser(name, username, email, pwd, date);
-        
-        return new ResponseEntity<>("\nUsuário criado!\n Nome: "+user.getName()+"\n Username: "+user.getUsername()+"\n", HttpStatus.OK);
+        return new ResponseEntity<>(user+"\n", HttpStatus.OK);
     }
 
-    @PostMapping("/users/{email}")
-    public ResponseEntity<String> authenticate(@PathVariable(value = "email") String email) {
-        // TODO: Criar método para devolver um usuário baseado em seu email.
-        return new ResponseEntity<>("Usuário:" + email + "\n", HttpStatus.OK);
+    @PostMapping("/authenticate")
+    public ResponseEntity<String> authenticate(
+            @RequestHeader(value = "email") String email,
+            @RequestHeader(value = "password") String password) throws NoSuchAlgorithmException {
+
+        boolean authenticate = userController.authenticateUser(email, password);
+
+        return new ResponseEntity<>("Autenticado:" + authenticate + "\n", HttpStatus.OK);
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<String> getEmailLogin(
+            @PathVariable(value = "email") String email) {
+
+        Login login = userController.getUserByEmail(email);
+
+        return new ResponseEntity<>("Usuário:" + login.getPassword() + "\n", HttpStatus.OK);
     }
 }
