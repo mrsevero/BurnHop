@@ -2,8 +2,13 @@ package br.com.burnhop.api.resource;
 
 import br.com.burnhop.model.Users;
 import br.com.burnhop.model.Login;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.sql.Date;
+import java.util.Base64;
+
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
@@ -30,8 +35,8 @@ public class UsersResource {
 
     @PostMapping(value = "/users")
     public ResponseEntity<String> createUser(@RequestParam("name") String name, @RequestParam("username") String username,
-     @RequestParam("data_nasc") String date, @RequestParam("email") String email, @RequestParam("pwd") String pwd) {
-        Login login1 = new Login(email, pwd);
+     @RequestParam("data_nasc") String date, @RequestParam("email") String email, @RequestParam("pwd") String pwd) throws NoSuchAlgorithmException {
+        Login login1 = new Login(email, hashPassword(pwd));
         login_repository.save(login1);
 
         /* TODO: Criar método para criar usuário.*/
@@ -54,5 +59,15 @@ public class UsersResource {
     public ResponseEntity<String> getAllUsers() {
         // TODO: Criar método para devolver todos os usuários. Utilizar findAll do CrudRepository
         return new ResponseEntity<>("Todos os usuários\n", HttpStatus.OK);
+    }
+
+    private String hashPassword(String password) throws NoSuchAlgorithmException {
+
+        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+        crypt.reset();
+        crypt.update(password.getBytes());
+        byte[] hash = crypt.digest();
+
+        return Base64.getEncoder().encodeToString(hash);
     }
 }

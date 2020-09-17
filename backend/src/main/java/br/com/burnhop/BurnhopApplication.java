@@ -19,28 +19,4 @@ public class BurnhopApplication {
 		SpringApplication.run(BurnhopApplication.class, args);
 	}
 
-	@Bean
-	ApplicationRunner init(LoginRepository repository, UsersRepository repository2) {
-
-		return args -> {
-			try {
-				Login login1 = new Login("wanderson_zika@uol.com.br", "@123");
-				Login login2 = new Login("joaomaiszikaqueowanderson@outlook.com", "123@");
-				repository.save(login1);
-				repository.save(login2);
-
-				Timestamp time = new Timestamp(System.currentTimeMillis());
-				Date data_nasc = new Date(1999,1,28);
-				Users user = new Users("Wanderson", "wandsu", data_nasc, time);	
-				repository2.save(user);
-				System.out.println("User ID: " + user.getId());
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			repository.findAll().forEach(System.out::println);
-		};
-	}
-
-
 }
