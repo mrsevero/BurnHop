@@ -45,7 +45,10 @@ public class UsersResource {
 
         boolean authenticate = userController.authenticateUser(email, password);
 
-        return new ResponseEntity<>("Autenticado:" + authenticate + "\n", HttpStatus.OK);
+        if(authenticate)
+            return new ResponseEntity<>("Autorizado", HttpStatus.OK);
+
+        return new ResponseEntity<>("Não autorizado", HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/{email}")
