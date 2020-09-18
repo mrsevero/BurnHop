@@ -58,8 +58,8 @@ public class UsersResource {
     public ResponseEntity<String> getEmailLogin(
             @PathVariable(value = "email") String email) {
 
-        Login login = userController.getUserByEmail(email);
+        Users user = userController.getUserByEmail(email);
         //ToDo retornar Usuário e tratar mensagem email não cadastrado
-        return new ResponseEntity<>("Usuário:" + login.getPassword() + "\n", HttpStatus.OK);
+        return new ResponseEntity<>(user + "\n", HttpStatus.OK);
     }
 }

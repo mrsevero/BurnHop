@@ -23,7 +23,7 @@ public class UserController {
     }
 
     public Users createUser(String name, String username, String email, String pwd, String date) throws NoSuchAlgorithmException {
-        Login login = getUserByEmail(email);
+        Login login = getLoginByEmail(email);
         if(login == null){
             Login login1 = new Login(email, hashPassword(pwd));
             login_repository.save(login1);
@@ -40,7 +40,7 @@ public class UserController {
 
     public boolean authenticateUser(String email, String password) throws NoSuchAlgorithmException {
 
-        Login login = getUserByEmail(email);
+        Login login = getLoginByEmail(email);
         if(login == null){
             return false;
         }
@@ -49,7 +49,12 @@ public class UserController {
         return MessageDigest.isEqual(hashPassword.getBytes(), login.getPassword().getBytes());
     }
 
-    public Login getUserByEmail(String email) {
+    public Users getUserByEmail(String email) {
+        Users user = user_repository.findByEmail(email);
+        return user;
+    }
+
+    public Login getLoginByEmail(String email) {
         Login login = login_repository.findByEmail(email);
         return login;
     }
