@@ -7,6 +7,11 @@ body{
   height: 40%;
 }
 
+.botao-cadastro{
+    padding-right: 15% !important;
+    padding-left: 15% !important;
+}
+
 /* BASIC */
 
 body {
@@ -50,7 +55,6 @@ h2 {
   border-radius: 20px 20px 20px 20px;
   background: #322A2A;
   padding: 0px;
-  width: 90%;
   max-width: 450px;
   position: relative;
   -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
@@ -61,7 +65,7 @@ h2 {
 #formFooter {
   background-color: #322A2A;
   border-top: 1px solid #5a4e4e;
-  padding: 10px;
+  padding: 0px;
   text-align: center;
   -webkit-border-radius: 0 0 20px 20px;
   border-radius: 0 0 20px 20px;

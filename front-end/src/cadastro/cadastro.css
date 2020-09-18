@@ -4,15 +4,10 @@ body{
 
 #logo {
   width: 40%;
-  height: 40%;
 }
-#playground-container {
-    height: 500px;
-    overflow: hidden !important;
-    -webkit-overflow-scrolling: touch;
-}
+
 body, html{
-  height: 100%;
+  height: 100vh;
  	font-family: 'Oxygen', sans-serif;
 }
 
@@ -33,6 +28,8 @@ hr{
 
 .form-group{
 	margin-bottom: 15px;
+  -webkit-border-radius: 20px 20px 20px 20px;
+  border-radius: 20px 20px 20px 20px;
 }
 
 label{
@@ -49,22 +46,33 @@ input::-webkit-input-placeholder {
  	background-color: #fff;
   /* shadows and rounded borders */
   -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
   -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 20px 20px 20px 20px;
+  border-radius: 20px 20px 20px 20px;
 
 }
 .form-control {
-    height: auto!important;
-padding: 8px 12px !important;
+  height: auto!important;
+  padding: 8px 12px !important;
+  -webkit-border-radius: 20px 20px 20px 20px;
+  border-radius: 20px 20px 20px 20px;
 }
 .input-group {
   -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
   -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
   box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
 }
+.input-group-addon{
+  -webkit-border-radius: 20px 20px 20px 20px;
+  border-radius: 20px 20px 20px 20px;
+  width: 40px;
+  text-align: center;
+  padding: 5% 4%;
+}
+
+
 #button {
   border: 1px solid #ccc;
   margin-top: 28px;
@@ -102,7 +110,7 @@ padding: 8px 12px !important;
 }
 span.input-group-addon i {
   color: #322A2A;
-  font-size: 17px;
+  font-size: 17px;  
 }
 
 .login-button{
