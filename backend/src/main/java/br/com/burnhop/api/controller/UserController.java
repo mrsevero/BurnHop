@@ -4,7 +4,6 @@ import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.UsersRepository;
-import org.apache.catalina.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -42,7 +41,7 @@ public class UserController {
 
         Login login = getLoginByEmail(email);
         if(login == null){
-            return false;
+            throw new IllegalAccessError("E-mail não cadastrado");
         }
         String hashPassword = hashPassword(password);
 
@@ -50,13 +49,11 @@ public class UserController {
     }
 
     public Users getUserByEmail(String email) {
-        Users user = user_repository.findByEmail(email);
-        return user;
+        return user_repository.findByEmail(email);
     }
 
     public Login getLoginByEmail(String email) {
-        Login login = login_repository.findByEmail(email);
-        return login;
+        return login_repository.findByEmail(email);
     }
 
     private String hashPassword(String password) throws NoSuchAlgorithmException {

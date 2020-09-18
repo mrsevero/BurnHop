@@ -46,20 +46,27 @@ public class UsersResource {
             @RequestHeader(value = "email") String email,
             @RequestHeader(value = "password") String password) throws NoSuchAlgorithmException {
 
-        boolean authenticate = userController.authenticateUser(email, password);
+        try {
+            boolean authenticate = userController.authenticateUser(email, password);
 
-        if(authenticate)
-            return new ResponseEntity<>("Autorizado\n", HttpStatus.OK);
-        //ToDo tratar mensagem de email não cadastrado e senha incorreta
-        return new ResponseEntity<>("Não autorizado\n", HttpStatus.UNAUTHORIZED);
+            if (authenticate)
+                return new ResponseEntity<>("Autorizado\n", HttpStatus.OK);
+
+            return new ResponseEntity<>("Não autorizado\n", HttpStatus.UNAUTHORIZED);
+
+        } catch (IllegalAccessError e) {
+            return new ResponseEntity<>("Email nao cadastrado\n", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
     @GetMapping("/{email}")
     public ResponseEntity<String> getEmailLogin(
             @PathVariable(value = "email") String email) {
 
         Users user = userController.getUserByEmail(email);
-        //ToDo retornar Usuário e tratar mensagem email não cadastrado
+
+        if (user == null) {
+            return new ResponseEntity<>("Usuário não cadastrado", HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(user + "\n", HttpStatus.OK);
     }
 }
