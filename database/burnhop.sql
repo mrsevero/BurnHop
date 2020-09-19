@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS login;
 DROP TABLE IF EXISTS users;
+DROP SEQUENCE IF EXISTS hibernate_sequence START 1;
 
 CREATE TABLE login ( id INTEGER PRIMARY KEY, email VARCHAR ( 100 ) NOT NULL UNIQUE, password VARCHAR ( 200 ) NOT NULL);
 CREATE TABLE users 
@@ -11,4 +12,6 @@ CREATE TABLE users
 	created_on TIMESTAMP NOT NULL, 
 	login_id INTEGER NOT NULL,
 	FOREIGN KEY(login_id) REFERENCES login(id)
- );
+);
+
+CREATE SEQUENCE hibernate_sequence START 1;
