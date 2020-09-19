@@ -18,9 +18,10 @@ Antes de tudo, é necessário criar o banco de dados e as tabelas do **Burnhop**
 
     CREATE DATABASE burnhop;
 
-##### 2. Realizar a recuperação do arquivo dump para criar as tabelas conforme o arquivo database/burnhop.sql;
+##### 2. Acessar o banco de dados e criar as tabelas conforme o arquivo database/burnhop.sql;
 
-    psql burnhop < burnhop.sql
+    \c burnhop
+    DUMP
 
 Com isso, o Postgres já está configurado para o **Burnhop**.
 
@@ -48,9 +49,8 @@ Todos as requisições relacionadas aos usuários tem como caminho raiz **/users
 #### Create User
 
 Este recurso é responsável por criar um novo usuário no banco de dados.
-Para esta requisição, é necessário definir as seguintes configurações:
+Para esta requisição, é necessário definir as seguintes configurações na requisição.
 
-    HTTP Method: POST
     Content-type: x-www-form-urlencoded
     URL: http://ip:9000/users/
     Body: "name=name&username=username&email=email&data_nasc=2020-10-10&pwd=senha"
@@ -62,31 +62,4 @@ Existem 2 possíveis respostas para esta requisição.
 
 #### Login
 
-Este recurso é responsável pela autenticação do usuário na aplicação.
-Para esta requisição, é necessário definir as seguintes configurações:
-
-    HTTP Method: POST
-    Content-type: x-www-form-urlencoded
-    URL: http://ip:9000/users/login
-    Header -> email: email
-    Header -> password: senha
-
-Existem 3 possíveis respostas para esta requisição.
-
-    200 OK. Usuário autorizado.
-    401 UNAUTHORIZED. Senha informada é incorreta para um usuário cadastrado.
-    500 INTERNAL_SERVER_ERROR. Credenciais do usuário não encontradas no banco de dados.
-
-
 #### Get User
-
-Este recurso é responsável pelo retorno de um usuário, obtendo um email como parâmetro.
-Para esta requisição, é necessário definir as seguintes configurações:
-
-    HTTP Method: GET
-    URL: http://ip:9000/users/{email}
-
-Existem 2 possíveis respostas para esta requisição.
-
-    200 OK. Usuário retornado.
-    404 NOT_FOUND. Email fornecido não localizado no banco de dados.
