@@ -8,7 +8,7 @@ CREATE TABLE users
 	id INTEGER PRIMARY KEY, 
 	name VARCHAR ( 70 ) NOT NULL, 
 	username VARCHAR ( 20 ), 
-	data_nasc DATE UNIQUE NOT NULL,
+	data_nasc DATE NOT NULL,
 	created_on TIMESTAMP NOT NULL, 
 	login_id INTEGER NOT NULL,
 	FOREIGN KEY(login_id) REFERENCES login(id)
