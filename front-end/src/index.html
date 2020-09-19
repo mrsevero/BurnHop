@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="index.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>repl.it</title>
-
+    <title>BurnHop</title>
+    <link rel="icon" href="images/icon.png">
      <!-- Bootstrap início -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -21,7 +22,6 @@
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-
     <div class = "text-center mt-4">
       <img class="img-fluid" src="images/logo.png" id = "logo"></img>
     </div>
@@ -32,7 +32,7 @@
         <form>
           <input type="text" id="login" class="fadeIn second" name="login" placeholder="Email">
           <input type="password" id="password" class="fadeIn third" name="login" placeholder="Senha">
-          <input type="submit" class="fadeIn fourth" value="Entrar">
+          <input onclick="userLogin()" type="button" class="fadeIn fourth" value="Entrar">
         </form>
 
         <a class="underlineHover ml-4" href="#">Esqueceu a senha?</a>
@@ -44,6 +44,5 @@
 
       </div>
     </div>
-    <script src="script.js"></script>
   </body>
 </html>
