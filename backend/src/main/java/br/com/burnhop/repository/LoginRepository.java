@@ -4,10 +4,9 @@ import br.com.burnhop.model.Login;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Repository;
 
-
-@RepositoryRestResource(collectionResourceRel = "login", path = "login")
+@Repository
 public interface LoginRepository extends CrudRepository<Login, Long> {
 
     @Query(value = "SELECT * FROM Login where email = :email", nativeQuery = true)
