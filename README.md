@@ -90,3 +90,4 @@ Existem 2 possíveis respostas para esta requisição.
 
     200 OK. Usuário retornado.
     404 NOT_FOUND. Email fornecido não localizado no banco de dados.
+	
