@@ -1,3 +1,6 @@
+java:
+  runtime:
+    version: 11
 spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
