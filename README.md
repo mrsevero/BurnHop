@@ -15,6 +15,7 @@ Banco de dados para os artigos/notícias/músicas (PostGres)
 
 Banco de dados para os usuários? (LDAP)
 
-Java / JavaScript / HTML-CSS / SPA / BOOTSTRAP / REACT
+Java / JavaScript / HTML-CSS / BOOTSTRAP / 
 
-[![burnhope.jpg](https://i.postimg.cc/zvdgmLhK/burnhope.jpg)](https://postimg.cc/1Vqtw3J3)
+http://burnhop.zapto.org/
+
