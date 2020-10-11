@@ -1,12 +1,13 @@
-package br.com.burnhop.model;
+package br.com.burnhop.model.Dto;
+
+import br.com.burnhop.model.Login;
+import br.com.burnhop.model.User;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 
 @Entity
-public class User {
+public class UserDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,21 +19,24 @@ public class User {
 
     private Date data_nasc;
 
-    private Timestamp created_on;
-
-    @OneToOne(targetEntity=Login.class, fetch=FetchType.EAGER)
+    @OneToOne(targetEntity= Login.class, fetch=FetchType.EAGER)
     @JoinColumn(name="login_id")
     private Login login;
 
-    public User() {
-        
+    public UserDto() {
+
     }
 
-    public User(String name, String username, Date data_nasc, Timestamp created_on) {
+    public UserDto(String name, String username, Date data_nasc) {
         this.name = name;
         this.username = username;
         this.data_nasc = data_nasc;
-        this.created_on = created_on;
+    }
+
+    public User toUser() {
+        User user = new User();
+        user.setName(this.name);
+        user.setData_nasc(this.data_nasc);
     }
 
     public int getId() {
@@ -65,14 +69,6 @@ public class User {
 
     public void setData_nasc(Date data_nasc) {
         this.data_nasc = data_nasc;
-    }
-
-    public Timestamp getCreated_on() {
-        return created_on;
-    }
-
-    public void setCreated_on(Timestamp created_on) {
-        this.created_on = created_on;
     }
 
     public Login getLogin() {
