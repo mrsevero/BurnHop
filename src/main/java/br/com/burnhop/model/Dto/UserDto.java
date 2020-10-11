@@ -1,16 +1,12 @@
 package br.com.burnhop.model.Dto;
 
-import br.com.burnhop.model.Login;
-import br.com.burnhop.model.User;
+import br.com.burnhop.model.Users;
 
-import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 
-@Entity
 public class UserDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
@@ -19,32 +15,21 @@ public class UserDto {
 
     private Date data_nasc;
 
-    @OneToOne(targetEntity= Login.class, fetch=FetchType.EAGER)
-    @JoinColumn(name="login_id")
-    private Login login;
+    private LoginDto login;
+
+    private Timestamp created_on;
 
     public UserDto() {
 
     }
 
-    public UserDto(String name, String username, Date data_nasc) {
-        this.name = name;
-        this.username = username;
-        this.data_nasc = data_nasc;
-    }
-
-    public User toUser() {
-        User user = new User();
-        user.setName(this.name);
-        user.setData_nasc(this.data_nasc);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public UserDto(Users user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.username = user.getUsername();
+        this.data_nasc = user.getData_nasc();
+        this.created_on = user.getCreated_on();
+        this.login = new LoginDto(user.getLogin());
     }
 
     public String getName() {
@@ -71,16 +56,27 @@ public class UserDto {
         this.data_nasc = data_nasc;
     }
 
-    public Login getLogin() {
+    public LoginDto getLogin() {
         return login;
     }
 
-    public void setLogin(Login login) {
+    public void setLogin(LoginDto login) {
         this.login = login;
     }
 
-    @Override
-    public String toString(){
-        return "Nome: "+this.getName()+"\nEmail: "+this.getLogin().getEmail()+"\nData de criação: "+this.getCreated_on();
+    public Timestamp getCreated_on() {
+        return created_on;
+    }
+
+    public void setCreated_on(Timestamp created_on) {
+        this.created_on = created_on;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

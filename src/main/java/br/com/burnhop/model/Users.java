@@ -6,7 +6,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,11 +24,11 @@ public class User {
     @JoinColumn(name="login_id")
     private Login login;
 
-    public User() {
+    public Users() {
         
     }
 
-    public User(String name, String username, Date data_nasc, Timestamp created_on) {
+    public Users(String name, String username, Date data_nasc, Timestamp created_on) {
         this.name = name;
         this.username = username;
         this.data_nasc = data_nasc;

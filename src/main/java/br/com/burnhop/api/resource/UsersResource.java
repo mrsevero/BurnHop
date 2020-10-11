@@ -1,5 +1,7 @@
 package br.com.burnhop.api.resource;
 
+import br.com.burnhop.model.Dto.CreatedUserDto;
+import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Users;
 
 import java.security.NoSuchAlgorithmException;
@@ -7,7 +9,11 @@ import java.security.NoSuchAlgorithmException;
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,14 +29,23 @@ public class UsersResource {
     }
 
     @PostMapping()
-    public ResponseEntity<String> createUser(@RequestParam("name") String name, @RequestParam("username") String username,
-     @RequestParam("data_nasc") String date, @RequestParam("email") String email, @RequestParam("pwd") String pwd) throws NoSuchAlgorithmException {
+    @ApiOperation(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário cadastrado com sucesso"),
+            @ApiResponse(code = 409, message = "Usuário com este e-mail já está cadastrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<UserDto> createUser(@RequestBody CreatedUserDto newUser) throws NoSuchAlgorithmException {
 
-        Users user = userController.createUser(name, username, email, pwd, date);
-        if (user == null) {
-            return new ResponseEntity<>("Usuário já cadastrado\n", HttpStatus.CONFLICT);
+        try {
+            UserDto user = userController.createUser(newUser.toUser());
+            if (user == null) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(user+"\n", HttpStatus.OK);
     }
 
     @PostMapping("/login")

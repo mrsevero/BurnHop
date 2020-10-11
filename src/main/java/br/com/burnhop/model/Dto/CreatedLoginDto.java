@@ -2,13 +2,13 @@ package br.com.burnhop.model.Dto;
 
 import br.com.burnhop.model.Login;
 
-public class LoginDto {
+public class CreatedLoginDto {
 
     private String email;
 
     private String password;
 
-    public LoginDto() {
+    public CreatedLoginDto() {
 
     }
 

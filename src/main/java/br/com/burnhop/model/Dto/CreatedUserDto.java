@@ -5,7 +5,7 @@ import br.com.burnhop.model.Users;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class UserDto {
+public class CreatedUserDto {
 
     private String name;
 
@@ -13,9 +13,9 @@ public class UserDto {
 
     private String data_nasc;
 
-    private LoginDto login;
+    private CreatedLoginDto login;
 
-    public UserDto() {
+    public CreatedUserDto() {
 
     }
 
@@ -54,11 +54,11 @@ public class UserDto {
         this.data_nasc = data_nasc;
     }
 
-    public LoginDto getLogin() {
+    public CreatedLoginDto getLogin() {
         return login;
     }
 
-    public void setLogin(LoginDto login) {
+    public void setLogin(CreatedLoginDto login) {
         this.login = login;
     }
 
