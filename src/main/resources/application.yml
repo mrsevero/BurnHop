@@ -5,9 +5,9 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: "jdbc:postgresql://localhost:5432/burnhop"
-    username: postgres
-    password: admin
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
 
 server:
   port: 9000
