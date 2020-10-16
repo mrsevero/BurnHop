@@ -9,4 +9,4 @@ spring:
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
 server:
-    port: $PORT
+        port: ${PORT:9000}
