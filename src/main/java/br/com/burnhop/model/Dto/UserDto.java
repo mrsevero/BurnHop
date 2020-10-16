@@ -17,8 +17,6 @@ public class UserDto {
 
     private LoginDto login;
 
-    private Timestamp created_on;
-
     public UserDto() {
 
     }
@@ -28,7 +26,6 @@ public class UserDto {
         this.name = user.getName();
         this.username = user.getUsername();
         this.data_nasc = user.getData_nasc();
-        this.created_on = user.getCreated_on();
         this.login = new LoginDto(user.getLogin());
     }
 
@@ -62,14 +59,6 @@ public class UserDto {
 
     public void setLogin(LoginDto login) {
         this.login = login;
-    }
-
-    public Timestamp getCreated_on() {
-        return created_on;
-    }
-
-    public void setCreated_on(Timestamp created_on) {
-        this.created_on = created_on;
     }
 
     public int getId() {

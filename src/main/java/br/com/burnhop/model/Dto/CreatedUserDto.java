@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class CreatedUserDto {
-
+    
     private String name;
 
     private String username;

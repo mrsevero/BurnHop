@@ -29,7 +29,7 @@ public class UsersResource {
     }
 
     @PostMapping()
-    @ApiOperation(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Criar um novo usuário", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Usuário cadastrado com sucesso"),
             @ApiResponse(code = 409, message = "Usuário com este e-mail já está cadastrado"),
@@ -49,6 +49,12 @@ public class UsersResource {
     }
 
     @PostMapping("/login")
+    @ApiOperation(value = "Autenticação", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário autenticado com sucesso"),
+            @ApiResponse(code = 401, message = "Usuário não autenticado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
     public ResponseEntity<String> login(
             @RequestHeader(value = "email") String email,
             @RequestHeader(value = "password") String password) throws NoSuchAlgorithmException {
@@ -57,24 +63,34 @@ public class UsersResource {
             boolean authenticate = userController.authenticateUser(email, password);
 
             if (authenticate)
-                return new ResponseEntity<>("Autorizado\n", HttpStatus.OK);
+                return new ResponseEntity<>("Autenticado\n", HttpStatus.OK);
 
-            return new ResponseEntity<>("Não autorizado\n", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Não autenticado\n", HttpStatus.UNAUTHORIZED);
 
         } catch (IllegalAccessError e) {
-            return new ResponseEntity<>("Email nao cadastrado\n", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{email}")
+    @ApiOperation(value = "Retorna usuário baseado no e-mail")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário com e-mail"),
+            @ApiResponse(code = 404, message = "Usuário com e-mail não encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
     public ResponseEntity<String> getUser(
             @PathVariable(value = "email") String email) {
 
-        Users user = userController.getUserByEmail(email);
+        try {
+            Users user = userController.getUserByEmail(email);
 
-        if (user == null) {
-            return new ResponseEntity<>("Usuário não cadastrado", HttpStatus.NOT_FOUND);
+            if (user == null) {
+                return new ResponseEntity<>("Usuário não cadastrado", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(user + "\n", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(user + "\n", HttpStatus.OK);
     }
 }
