@@ -1,0 +1,15 @@
+java:
+  runtime:
+    version: 11
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/burnhop"
+    username: postgres
+    password: admin
+
+#Swagger Configurations
+
+server:
+  port: 9000
