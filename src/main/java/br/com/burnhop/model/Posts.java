@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+@Entity
 public class Posts {
 
     @Id
@@ -12,12 +13,43 @@ public class Posts {
 
     private Timestamp posted_on;
 
-    @OneToMany(targetEntity=Users.class, fetch= FetchType.EAGER)
+    @ManyToOne(targetEntity=Users.class, fetch= FetchType.EAGER)
     @JoinColumn(name="user_id")
     private Users users;
 
     @OneToOne(targetEntity=Content.class, fetch= FetchType.EAGER)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="content_id")
     private Content content;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Timestamp getPosted_on() {
+        return posted_on;
+    }
+
+    public void setPosted_on(Timestamp posted_on) {
+        this.posted_on = posted_on;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Content getContent() {
+        return content;
+    }
+
+    public void setContent(Content content) {
+        this.content = content;
+    }
 }

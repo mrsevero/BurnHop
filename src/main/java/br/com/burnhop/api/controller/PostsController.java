@@ -1,34 +1,43 @@
 package br.com.burnhop.api.controller;
 
-import br.com.burnhop.model.Dto.UserDto;
-import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Posts;
 import br.com.burnhop.model.Users;
-import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import java.util.ArrayList;
+import java.util.Optional;
 
 public class PostsController {
 
     PostsRepository posts_repository;
+    UsersRepository users_repository;
 
-    public PostsController(PostsRepository postsRepository) {
+    public PostsController(PostsRepository postsRepository, UsersRepository usersRepository) {
         this.posts_repository = postsRepository;
+        this.users_repository = usersRepository;
     }
 
-    public void createPost(Posts post) {
+    public Posts createPost(Posts post) {
+        Optional<Users> possibleUser = users_repository.findById(post.getUsers().getId());
+        if(possibleUser.isPresent()) {
+            posts_repository.save(post);
 
+            Optional<Posts> createdPost = posts_repository.findById(post.getId());
+
+            return createdPost.orElseThrow(IllegalStateException::new);
+        }
+        return null;
     }
 
-    public void getAllPosts() {
+    public ArrayList<Posts> getAllPosts() {
+        ArrayList<Posts> posts = new ArrayList<>();
 
+        for (Posts post : posts_repository.findAll()) {
+            posts.add(post);
+        }
+
+        return posts;
     }
 
-    public void getPostByEmail() {
-        
-    }
 }

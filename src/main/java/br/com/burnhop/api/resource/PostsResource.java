@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 
 @RestController()
 @CrossOrigin("*")
-@RequestMapping("/users")
+@RequestMapping("/posts")
 public class PostsResource {
 
     UserController userController;
