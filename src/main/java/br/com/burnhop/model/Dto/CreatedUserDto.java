@@ -1,16 +1,22 @@
 package br.com.burnhop.model.Dto;
 
 import br.com.burnhop.model.Users;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
 public class CreatedUserDto {
-    
+
+    @ApiModelProperty(value = "Uma String que representa o nome do usuário", example = "Nome Exemplo Teste")
     private String name;
 
+    @ApiModelProperty(value = "Uma String que representa o apelido do usuário", example = "Teste_Exemplo_123")
     private String username;
 
+    @ApiModelProperty(value = "Uma String que representa data de nascimento do usuário", example = "2020-10-18")
     private String data_nasc;
 
     private CreatedLoginDto login;

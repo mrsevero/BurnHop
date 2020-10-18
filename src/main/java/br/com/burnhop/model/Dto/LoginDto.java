@@ -1,11 +1,14 @@
 package br.com.burnhop.model.Dto;
 
 import br.com.burnhop.model.Login;
+import io.swagger.annotations.ApiModelProperty;
 
 public class LoginDto {
 
+    @ApiModelProperty(value = "Um inteiro que representa o identificador do usuário", example = "11")
     private int id;
 
+    @ApiModelProperty(value = "Uma String que representa o e-mail do usuário", example = "exemplo@teste.com")
     private String email;
 
     public LoginDto() {

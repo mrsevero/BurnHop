@@ -9,9 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -79,16 +77,16 @@ public class UsersResource {
             @ApiResponse(code = 404, message = "Usuário com e-mail não encontrado"),
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
-    public ResponseEntity<String> getUser(
+    public ResponseEntity<UserDto> getUser(
             @PathVariable(value = "email") String email) {
 
         try {
-            Users user = userController.getUserByEmail(email);
+            UserDto user = userController.getUserByEmail(email);
 
             if (user == null) {
-                return new ResponseEntity<>("Usuário não cadastrado", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(user + "\n", HttpStatus.OK);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -28,9 +28,9 @@ public class UserController {
             login_repository.save(newUser.getLogin());
             user_repository.save(newUser);
 
-            Users user = getUserByEmail(newUser.getLogin().getEmail());
+            UserDto user = getUserByEmail(newUser.getLogin().getEmail());
 
-            return new UserDto(user);
+            return user;
         }
         return null;
     }
@@ -46,8 +46,8 @@ public class UserController {
         return MessageDigest.isEqual(hashPassword.getBytes(), login.getPassword().getBytes());
     }
 
-    public Users getUserByEmail(String email) {
-        return user_repository.findByEmail(email);
+    public UserDto getUserByEmail(String email) {
+        return new UserDto(user_repository.findByEmail(email));
     }
 
     public Login getLoginByEmail(String email) {
