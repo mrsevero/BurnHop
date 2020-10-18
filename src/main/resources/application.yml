@@ -8,5 +8,8 @@ spring:
     url: ${JDBC_DATABASE_URL}
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
+
+#Swagger Configurations
+
 server:
-        port: ${PORT:9000}
+  port: ${PORT:9000}

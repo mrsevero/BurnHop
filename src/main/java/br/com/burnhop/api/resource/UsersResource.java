@@ -1,5 +1,7 @@
 package br.com.burnhop.api.resource;
 
+import br.com.burnhop.model.Dto.CreatedUserDto;
+import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Users;
 
 import java.security.NoSuchAlgorithmException;
@@ -7,7 +9,9 @@ import java.security.NoSuchAlgorithmException;
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
+import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,17 +27,32 @@ public class UsersResource {
     }
 
     @PostMapping()
-    public ResponseEntity<String> createUser(@RequestParam("name") String name, @RequestParam("username") String username,
-     @RequestParam("data_nasc") String date, @RequestParam("email") String email, @RequestParam("pwd") String pwd) throws NoSuchAlgorithmException {
+    @ApiOperation(value = "Criar um novo usuário", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário cadastrado com sucesso"),
+            @ApiResponse(code = 409, message = "Usuário com este e-mail já está cadastrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<UserDto> createUser(@RequestBody CreatedUserDto newUser) throws NoSuchAlgorithmException {
 
-        Users user = userController.createUser(name, username, email, pwd, date);
-        if (user == null) {
-            return new ResponseEntity<>("Usuário já cadastrado\n", HttpStatus.CONFLICT);
+        try {
+            UserDto user = userController.createUser(newUser.toUser());
+            if (user == null) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(user+"\n", HttpStatus.OK);
     }
 
     @PostMapping("/login")
+    @ApiOperation(value = "Autenticação", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário autenticado com sucesso"),
+            @ApiResponse(code = 401, message = "Usuário não autenticado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
     public ResponseEntity<String> login(
             @RequestHeader(value = "email") String email,
             @RequestHeader(value = "password") String password) throws NoSuchAlgorithmException {
@@ -42,24 +61,34 @@ public class UsersResource {
             boolean authenticate = userController.authenticateUser(email, password);
 
             if (authenticate)
-                return new ResponseEntity<>("Autorizado\n", HttpStatus.OK);
+                return new ResponseEntity<>("Autenticado\n", HttpStatus.OK);
 
-            return new ResponseEntity<>("Não autorizado\n", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Não autenticado\n", HttpStatus.UNAUTHORIZED);
 
         } catch (IllegalAccessError e) {
-            return new ResponseEntity<>("Email nao cadastrado\n", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<String> getUser(
+    @ApiOperation(value = "Retorna usuário baseado no e-mail")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário com e-mail"),
+            @ApiResponse(code = 404, message = "Usuário com e-mail não encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<UserDto> getUser(
             @PathVariable(value = "email") String email) {
 
-        Users user = userController.getUserByEmail(email);
+        try {
+            UserDto user = userController.getUserByEmail(email);
 
-        if (user == null) {
-            return new ResponseEntity<>("Usuário não cadastrado", HttpStatus.NOT_FOUND);
+            if (user == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(user + "\n", HttpStatus.OK);
     }
 }
