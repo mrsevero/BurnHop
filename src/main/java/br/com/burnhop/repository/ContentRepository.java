@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PostsRepository extends CrudRepository<Content, Integer> {
+public interface ContentRepository extends CrudRepository<Content, Integer> {
     Content findById(String id);
 }
