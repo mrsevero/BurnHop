@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
 public class CreatedPostDto {
 
-    @ApiModelProperty(value = "Uma String que representa o apelido do usuário", example = "Teste_Exemplo_123")
+    @ApiModelProperty(value = "Uma String que representa o apelido do usuário", example = "exemplo@teste.com")
     private String user_email;
 
     @ApiModelProperty(value = "Uma String que representa data de nascimento do usuário", example = "2020-10-18")

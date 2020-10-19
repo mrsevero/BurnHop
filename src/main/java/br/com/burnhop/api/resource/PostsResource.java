@@ -39,7 +39,7 @@ public class PostsResource {
     public ResponseEntity<PostDto> createPost(@RequestBody CreatedPostDto newPost) {
 
         try {
-            Posts post = postController.createPost(newPost.toPost(usersRepository));
+            PostDto post = postController.createPost(newPost.toPost(usersRepository));
             if (post == null) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
@@ -57,10 +57,10 @@ public class PostsResource {
             @ApiResponse(code = 204, message = "Não existe nenhum post salvo"),
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
-    public ResponseEntity<ArrayList<Posts>> getAllPosts(){
+    public ResponseEntity<ArrayList<PostDto>> getAllPosts(){
 
         try {
-            ArrayList<Posts> todos_posts = postController.getAllPosts();
+            ArrayList<PostDto> todos_posts = postController.getAllPosts();
 
             if(todos_posts.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
