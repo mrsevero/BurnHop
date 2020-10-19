@@ -1,10 +1,12 @@
 package br.com.burnhop.api.resource;
 
-import br.com.burnhop.api.controller.UserController;
-import br.com.burnhop.model.Dto.CreatedUserDto;
-import br.com.burnhop.model.Dto.UserDto;
+import br.com.burnhop.api.controller.PostsController;
+import br.com.burnhop.model.Dto.PostDto;
+import br.com.burnhop.model.Dto.CreatedPostDto;
+import br.com.burnhop.model.Posts;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.UsersRepository;
+import br.com.burnhop.repository.PostsRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -14,80 +16,54 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 @RestController()
 @CrossOrigin("*")
 @RequestMapping("/posts")
 public class PostsResource {
 
-    UserController userController;
+    PostsController postController;
+    UsersRepository usersRepository;
 
-    public PostsResource(LoginRepository login_repository, UsersRepository user_repository){
-        userController = new UserController(login_repository, user_repository);
+    public PostsResource(PostsRepository post_repository, UsersRepository users_repository){
+        postController = new PostsController(post_repository, users_repository);
+        this.usersRepository = users_repository;
     }
 
     @PostMapping()
-    @ApiOperation(value = "Criar um novo usuário", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Criar um novo post", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Usuário cadastrado com sucesso"),
-            @ApiResponse(code = 409, message = "Usuário com este e-mail já está cadastrado"),
+            @ApiResponse(code = 200, message = "Post criado com sucesso"),
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
-    public ResponseEntity<UserDto> createUser(@RequestBody CreatedUserDto newUser) throws NoSuchAlgorithmException {
+    public ResponseEntity<PostDto> createPost(@RequestBody CreatedPostDto newPost) throws NoSuchAlgorithmException {
 
         try {
-            UserDto user = userController.createUser(newUser.toUser());
-            if (user == null) {
+            Posts post = postController.createPost(newPost.toPost(usersRepository));
+            if (post == null) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity(post, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping("/login")
-    @ApiOperation(value = "Autenticação", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/get-all")
+    @ApiOperation(value = "Todos os Posts", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Usuário autenticado com sucesso"),
-            @ApiResponse(code = 401, message = "Usuário não autenticado"),
+            @ApiResponse(code = 200, message = "Posts retornados com sucesso"),
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
-    public ResponseEntity<String> login(
-            @RequestHeader(value = "email") String email,
-            @RequestHeader(value = "password") String password) throws NoSuchAlgorithmException {
+    public ResponseEntity<String> getAllPosts(){
 
         try {
-            boolean authenticate = userController.authenticateUser(email, password);
+            ArrayList<Posts> todos_posts = postController.getAllPosts();
 
-            if (authenticate)
-                return new ResponseEntity<>("Autenticado\n", HttpStatus.OK);
-
-            return new ResponseEntity<>("Não autenticado\n", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(todos_posts, HttpStatus.NO_CONTENT);
 
         } catch (IllegalAccessError e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/{email}")
-    @ApiOperation(value = "Retorna usuário baseado no e-mail")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Usuário com e-mail"),
-            @ApiResponse(code = 404, message = "Usuário com e-mail não encontrado"),
-            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
-    })
-    public ResponseEntity<UserDto> getUser(
-            @PathVariable(value = "email") String email) {
-
-        try {
-            UserDto user = userController.getUserByEmail(email);
-
-            if (user == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
