@@ -9,7 +9,7 @@ public class Posts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int id_post;
 
     private Timestamp posted_on;
 
@@ -22,11 +22,11 @@ public class Posts {
     private Content content;
 
     public int getId() {
-        return id;
+        return id_post;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int id_post) {
+        this.id_post = id_post;
     }
 
     public Timestamp getPosted_on() {

@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ContentRepository extends CrudRepository<Content, Integer> {
-    Content findById(String id);
 }

@@ -24,8 +24,9 @@ public class CreatedPostDto {
     public Posts toPost(UsersRepository usersRepository) {
         Posts post = new Posts();
         Content content = new Content();
-        content.setContent(texto);
+        content.setText(texto);
         post.setUsers(usersRepository.findByEmail(this.user_email));
+        post.setPosted_on(new Timestamp(System.currentTimeMillis()));
         post.setContent(content);
 
         return post;

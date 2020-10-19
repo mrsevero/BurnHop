@@ -10,23 +10,23 @@ public class Content {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int id_content;
 
-    private String content;
+    private String text;
 
     public int getId() {
-        return id;
+        return id_content;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int id_content) {
+        this.id_content = id_content;
     }
 
-    public String getContent() {
-        return content;
+    public String getText() {
+        return text;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setText(String text) {
+        this.text = text;
     }
 }
