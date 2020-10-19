@@ -7,10 +7,10 @@ import java.sql.Date;
 
 public class PostDto {
 
-    @ApiModelProperty(value = "Uma String que representa o apelido do usuário", example = "Teste_Exemplo_123")
+    @ApiModelProperty(value = "Uma String que representa o email do usuario do post", example = "exemplo@teste.com")
     private String user_email;
 
-    @ApiModelProperty(value = "Uma String que representa data de nascimento do usuário", example = "2020-10-18")
+    @ApiModelProperty(value = "Uma String que representa o texto do post", example = "artigo de como fazer um passinho do hip-hop")
     private String texto;
 
     public PostDto() {
