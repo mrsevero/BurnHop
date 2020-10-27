@@ -24,7 +24,7 @@ public class Users {
     @JoinColumn(name="login_id")
     private Login login;
 
-    public Users () {
+    public Users() {
         
     }
 

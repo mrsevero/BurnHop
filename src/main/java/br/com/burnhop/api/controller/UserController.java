@@ -1,5 +1,7 @@
 package br.com.burnhop.api.controller;
 
+import br.com.burnhop.model.Dto.CreatedUserDto;
+import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
@@ -7,8 +9,6 @@ import br.com.burnhop.repository.UsersRepository;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.Base64;
 
 public class UserController {
@@ -21,16 +21,14 @@ public class UserController {
         this.user_repository = usersRepository;
     }
 
-    public Users createUser(String name, String username, String email, String pwd, String date) throws NoSuchAlgorithmException {
-        Login login = getLoginByEmail(email);
+    public UserDto createUser(Users newUser) throws NoSuchAlgorithmException {
+        Login login = getLoginByEmail(newUser.getLogin().getEmail());
         if(login == null){
-            Login login1 = new Login(email, hashPassword(pwd));
-            login_repository.save(login1);
-            Date data_nasc = Date.valueOf(date);
-            Timestamp time = new Timestamp(System.currentTimeMillis());
-            Users user = new Users(name, username, data_nasc, time);
-            user.setLogin(login1);
-            user_repository.save(user);
+            newUser.getLogin().setPassword(hashPassword(newUser.getLogin().getPassword()));
+            login_repository.save(newUser.getLogin());
+            user_repository.save(newUser);
+
+            UserDto user = getUserByEmail(newUser.getLogin().getEmail());
 
             return user;
         }
@@ -48,8 +46,8 @@ public class UserController {
         return MessageDigest.isEqual(hashPassword.getBytes(), login.getPassword().getBytes());
     }
 
-    public Users getUserByEmail(String email) {
-        return user_repository.findByEmail(email);
+    public UserDto getUserByEmail(String email) {
+        return new UserDto(user_repository.findByEmail(email));
     }
 
     public Login getLoginByEmail(String email) {

@@ -1,1 +1,1 @@
-web: node /front-end/src/server.js
+web: java -jar target/backend-0.0.1-SNAPSHOT.jar
