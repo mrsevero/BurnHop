@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
+import br.com.burnhop.utils.TokenController;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,9 +22,11 @@ import org.springframework.web.bind.annotation.*;
 public class UsersResource {
 
     UserController userController;
+    TokenController tokenController;
 
     public UsersResource(LoginRepository login_repository, UsersRepository user_repository){
         userController = new UserController(login_repository, user_repository);
+        tokenController = new TokenController();
     }
 
     @PostMapping()
@@ -60,10 +63,12 @@ public class UsersResource {
         try {
             boolean authenticate = userController.authenticateUser(email, password);
 
-            if (authenticate)
-                return new ResponseEntity<>("Autenticado\n", HttpStatus.OK);
+            if (authenticate) {
+                String token = tokenController.createToken(userController.getUserByEmail(email).getId());
+                return new ResponseEntity<>("Bearer " + token, HttpStatus.OK);
 
-            return new ResponseEntity<>("Não autenticado\n", HttpStatus.UNAUTHORIZED);
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         } catch (IllegalAccessError e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
