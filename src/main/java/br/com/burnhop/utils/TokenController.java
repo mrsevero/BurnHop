@@ -13,8 +13,8 @@ public class TokenController {
     @Autowired
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
-    public String createToken(String id) {
-        return Jwts.builder().setId(id).signWith(key).compact();
+    public String createToken(int id) {
+        return Jwts.builder().setId(String.valueOf(id)).signWith(key).compact();
     }
 
     public boolean validToken(String token) {
