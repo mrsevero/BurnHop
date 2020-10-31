@@ -79,19 +79,27 @@ public class UsersResource {
     @ApiOperation(value = "Retorna usuário baseado no e-mail")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Usuário com e-mail"),
+            @ApiResponse(code = 401, message = "Token inválido"),
             @ApiResponse(code = 404, message = "Usuário com e-mail não encontrado"),
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
     public ResponseEntity<UserDto> getUser(
-            @PathVariable(value = "email") String email) {
+            @PathVariable(value = "email") String email,
+            @RequestHeader("Authorization") String token) {
 
         try {
-            UserDto user = userController.getUserByEmail(email);
+            boolean validated = tokenController.validToken(token);
 
-            if (user == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if(validated) {
+                UserDto user = userController.getUserByEmail(email);
+
+                if (user == null) {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+                return new ResponseEntity<>(user, HttpStatus.OK);
             }
-            return new ResponseEntity<>(user, HttpStatus.OK);
+
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
