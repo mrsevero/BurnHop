@@ -1,15 +1,22 @@
 package br.com.burnhop.api.controller;
 
 import br.com.burnhop.model.Dto.CreatedUserDto;
+import br.com.burnhop.model.Dto.PostDto;
 import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Login;
+import br.com.burnhop.model.Posts;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.UsersRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
 
 public class UserController {
 
@@ -48,6 +55,23 @@ public class UserController {
 
     public UserDto getUserByEmail(String email) {
         return new UserDto(user_repository.findByEmail(email));
+    }
+
+    public UserDto getUserById(int id) {
+        Optional<Users> user = user_repository.findById((Integer) id);
+
+        return user.map(UserDto::new).orElse(null);
+    }
+
+    public ArrayList<UserDto> getAllUsers() {
+
+        ArrayList<UserDto> users = new ArrayList<>();
+
+        for (Users user : user_repository.findAll()) {
+            users.add(new UserDto(user));
+        }
+
+        return users;
     }
 
     public Login getLoginByEmail(String email) {
