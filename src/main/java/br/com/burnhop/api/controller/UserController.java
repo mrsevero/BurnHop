@@ -8,7 +8,9 @@ import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Posts;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
+import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -24,10 +26,12 @@ public class UserController {
 
     LoginRepository login_repository;
     UsersRepository user_repository;
+    PostsRepository posts_repository;
 
-    public UserController(LoginRepository loginRepository, UsersRepository usersRepository) {
+    public UserController(LoginRepository loginRepository, UsersRepository usersRepository, PostsRepository postsRepository) {
         this.login_repository = loginRepository;
         this.user_repository = usersRepository;
+        this.posts_repository = postsRepository;
     }
 
     public UserDto createUser(Users newUser) throws NoSuchAlgorithmException {
@@ -106,5 +110,31 @@ public class UserController {
         }
 
         return null;
+    }
+
+    public boolean deleteUser(int id) {
+        Optional <Users> user = user_repository.findById((Integer) id);
+
+        if(user.isPresent()) {
+            Users userToDelete = user.get();
+            int loginId = userToDelete.getLogin().getId();
+            ArrayList<Posts> posts = new ArrayList<>();
+
+            for (Posts post : posts_repository.findAll()) {
+                posts.add(post);
+            }
+
+            for (Posts post : posts) {
+                if (post.getUsers().getId() == id){
+                    posts_repository.deleteById(post.getId());
+                }
+            }
+            user_repository.deleteById((Integer) userToDelete.getId());
+            login_repository.deleteById((Integer) loginId);
+            return true;
+        }
+
+        return false;
+
     }
 }
