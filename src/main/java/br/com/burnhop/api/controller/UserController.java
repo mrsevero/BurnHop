@@ -2,6 +2,7 @@ package br.com.burnhop.api.controller;
 
 import br.com.burnhop.model.Dto.CreatedUserDto;
 import br.com.burnhop.model.Dto.PostDto;
+import br.com.burnhop.model.Dto.UpdatedUserDto;
 import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Posts;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -86,5 +88,23 @@ public class UserController {
         byte[] hash = crypt.digest();
 
         return Base64.getEncoder().encodeToString(hash);
+    }
+
+    public UserDto updateUser(int id, UpdatedUserDto newUser) {
+        Optional<Users> user = user_repository.findById((Integer) id);
+
+        if(user.isPresent()) {
+            Users userToUpdate = user.get();
+            userToUpdate.setData_nasc(Date.valueOf(newUser.getData_nasc()));
+            userToUpdate.setName(newUser.getName());
+            userToUpdate.setUsername(newUser.getUsername());
+            userToUpdate.getLogin().setEmail(newUser.getEmail());
+
+            Users updatedUser = user_repository.save(userToUpdate);
+
+            return new UserDto(updatedUser);
+        }
+
+        return null;
     }
 }

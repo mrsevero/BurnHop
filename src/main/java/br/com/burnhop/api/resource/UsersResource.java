@@ -1,6 +1,7 @@
 package br.com.burnhop.api.resource;
 
 import br.com.burnhop.model.Dto.CreatedUserDto;
+import br.com.burnhop.model.Dto.UpdatedUserDto;
 import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Users;
 
@@ -11,6 +12,7 @@ import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
 import io.swagger.annotations.*;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -131,6 +133,34 @@ public class UsersResource {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(users, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping()
+    @ApiOperation(value = "Retorna todos os usuários")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Lista de todos os usuários"),
+            @ApiResponse(code = 404, message = "Nenhum usuário foi encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<UserDto> updateUser(
+            @RequestBody UpdatedUserDto userToUpdate,
+            @RequestParam int id) {
+
+        try {
+            UserDto user = userController.getUserById(id);
+
+            if(user == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            UserDto updatedUser = userController.updateUser(id, userToUpdate);
+
+            if(updatedUser == null)
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
