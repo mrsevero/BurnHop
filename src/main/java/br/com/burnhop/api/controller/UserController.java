@@ -13,6 +13,7 @@ import br.com.burnhop.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -95,21 +96,21 @@ public class UserController {
     }
 
     public UserDto updateUser(int id, UpdatedUserDto newUser) {
-        Optional<Users> user = user_repository.findById((Integer) id);
+        Users possibleUser = user_repository.findByEmail(newUser.getEmail());
 
-        if(user.isPresent()) {
-            Users userToUpdate = user.get();
-            userToUpdate.setData_nasc(Date.valueOf(newUser.getData_nasc()));
-            userToUpdate.setName(newUser.getName());
-            userToUpdate.setUsername(newUser.getUsername());
-            userToUpdate.getLogin().setEmail(newUser.getEmail());
+        if(possibleUser != null)
+            return null;
 
-            Users updatedUser = user_repository.save(userToUpdate);
+        Users userToUpdate = user_repository.findById((Integer) id).get();
 
-            return new UserDto(updatedUser);
-        }
+        userToUpdate.setData_nasc(Date.valueOf(newUser.getData_nasc()));
+        userToUpdate.setName(newUser.getName());
+        userToUpdate.setUsername(newUser.getUsername());
+        userToUpdate.getLogin().setEmail(newUser.getEmail());
 
-        return null;
+        Users updatedUser = user_repository.save(userToUpdate);
+
+        return new UserDto(updatedUser);
     }
 
     public boolean deleteUser(int id) {

@@ -144,6 +144,7 @@ public class UsersResource {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Usuário atualizado"),
             @ApiResponse(code = 404, message = "Nenhum usuário foi encontrado"),
+            @ApiResponse(code = 409, message = "Usuário com este e-mail já está cadastrado"),
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
     public ResponseEntity<UserDto> updateUser(
@@ -159,7 +160,7 @@ public class UsersResource {
             UserDto updatedUser = userController.updateUser(id, userToUpdate);
 
             if(updatedUser == null)
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
 
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (Exception e) {
@@ -170,7 +171,7 @@ public class UsersResource {
     @DeleteMapping()
     @ApiOperation(value = "Delete usuário informado")
     @ApiResponses({
-            @ApiResponse(code = 204, message = "Usuário deletado com sucesso"),
+            @ApiResponse(code = 200, message = "Usuário deletado com sucesso"),
             @ApiResponse(code = 404, message = "Nenhum usuário foi encontrado"),
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
@@ -186,7 +187,7 @@ public class UsersResource {
             boolean deleted = userController.deleteUser(id);
 
             if(deleted)
-                return new ResponseEntity<>("Usuário deletado com sucesso", HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>("Usuário deletado com sucesso", HttpStatus.OK);
 
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
