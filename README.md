@@ -1,6 +1,6 @@
 # Burnhop Back-end
 
-[![Build Status](https://travis-ci.com/wandsu/burnhop-server.svg?branch=tests)](https://travis-ci.com/wandsu/burnhop-server)
+[![Build Status](https://travis-ci.com/wandsu/burnhop-server.svg?branch=dev)](https://travis-ci.com/wandsu/burnhop-server)
 
 ## Configuração
 
