@@ -52,7 +52,7 @@ class UsersResourceTest{
 		String name = "Test";
 		String username = "test";
 		String data_nasc = "2000-01-01";
-		String email = "test@test.com";
+		String email = "test1@test.com";
 		String password = "12345";
 	
 		CreatedUserDto createdUserDto = new CreatedUserDto();
@@ -69,49 +69,33 @@ class UsersResourceTest{
 		return createdUserDto;
     }
     
-	@Test
-	void testCreateUserRequest() throws Exception{
-
-		CreatedUserDto createdUserDto = makeUser();
-
-		mockMvc.perform(post("/users")
-				.contentType("application/json")
-				.content(objectMapper.writeValueAsString(createdUserDto)))
-				.andExpect(status().isOk());
-			
-		mockMvc.perform(post("/users")
-				.contentType("application/json")
-				.content(objectMapper.writeValueAsString(createdUserDto)))
-				.andExpect(status().isConflict());
-	}
 	
+    @Test
+    void testGetUserByEmail() throws Exception{
+        String email = "test1@test.com";
+
+		mockMvc.perform(get("/users/{email}", email))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+
 	@Test
-	void testLogin() throws Exception{
+	void testLoginRequest() throws Exception{
 
 		CreatedUserDto createdUserDto = makeUser();
 
 		String email = createdUserDto.getLogin().getEmail();
-		String wrongEmail = "test@test.com";
 		String password = createdUserDto.getLogin().getPassword();;
 		String wrongPassword = "123";
 
 		mockMvc.perform(post("/users/login")
-				.header("email", "test@test.com")
+				.header("email", "test1@test.com")
 				.header("password", "12345"))
 				.andExpect(status().isOk());
 
 		mockMvc.perform(post("/users/login")
-				.header("email", wrongEmail)
+				.header("email", email)
 				.header("password", wrongPassword))
 				.andExpect(status().isUnauthorized());	
-	}
-	
-	@Test
-	void testGetUserByEmail() throws Exception{
-		String email = "test@test.com";
-		
-		mockMvc.perform(get("/users/{id}", email))
-				.andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 	}
 }
