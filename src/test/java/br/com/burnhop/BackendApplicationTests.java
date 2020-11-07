@@ -1,14 +1,19 @@
 package br.com.burnhop;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import br.com.burnhop.model.Users;
+import br.com.burnhop.model.Login;
+import br.com.burnhop.model.Dto.CreatedLoginDto;
+import br.com.burnhop.model.Dto.CreatedUserDto;
+import br.com.burnhop.model.Dto.UserDto;
+import br.com.burnhop.api.resource.UsersResource;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,50 +21,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
+
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import org.mockito.MockitoAnnotations;
+import org.mockito.Mock;
+
+
+import br.com.burnhop.repository.LoginRepository;
+import br.com.burnhop.repository.UsersRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class BackendApplicationTests {
-
-	@Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
+	
 	@Test
 	void contextLoads() {
 	}
-
-	/*
-	void case1() throws Exception{
-		String name = "Test1";
-		String username = "test1";
-		Date data_nasc = new Timestamp(System.currentTimeMillis());
-		Timestamp created_on = Date.valueOf("01-01-2000");
-
-		Users user = new Users(name, username, data_nasc, created_on);
-
-		mockMvc.perform(post("/bookings")
-				.contentType("application/json")
-				.content(objectMapper.writeValueAsString(user)))
-				.andExpect(status().isOk());
-	}*/
-
-	@Test
-	void case2() throws Exception{
-		String email = "xuao@bol.com";
-
-		mockMvc.perform(get("/users/{id}", email))
-                // Validate the response code and content type
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-	}
-
 }
