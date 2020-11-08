@@ -1,5 +1,7 @@
 # Burnhop Back-end
 
+[![Build Status](https://travis-ci.com/wandsu/burnhop-server.svg?branch=dev)](https://travis-ci.com/wandsu/burnhop-server)
+
 ## Configuração
 
 Para este projeto, é necessário as versões das seguintes bibliotecas:
