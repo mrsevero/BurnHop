@@ -2,17 +2,22 @@ package br.com.burnhop.api.controller;
 
 import br.com.burnhop.model.Dto.CreatedUserDto;
 import br.com.burnhop.model.Dto.PostDto;
+import br.com.burnhop.model.Dto.UpdatedUserDto;
 import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Posts;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
+import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -22,10 +27,12 @@ public class UserController {
 
     LoginRepository login_repository;
     UsersRepository user_repository;
+    PostsRepository posts_repository;
 
-    public UserController(LoginRepository loginRepository, UsersRepository usersRepository) {
+    public UserController(LoginRepository loginRepository, UsersRepository usersRepository, PostsRepository postsRepository) {
         this.login_repository = loginRepository;
         this.user_repository = usersRepository;
+        this.posts_repository = postsRepository;
     }
 
     public UserDto createUser(Users newUser) throws NoSuchAlgorithmException {
@@ -86,5 +93,49 @@ public class UserController {
         byte[] hash = crypt.digest();
 
         return Base64.getEncoder().encodeToString(hash);
+    }
+
+    public UserDto updateUser(int id, UpdatedUserDto newUser) {
+        Users possibleUser = user_repository.findByEmail(newUser.getEmail());
+
+        if(possibleUser != null)
+            return null;
+
+        Users userToUpdate = user_repository.findById((Integer) id).get();
+
+        userToUpdate.setData_nasc(Date.valueOf(newUser.getData_nasc()));
+        userToUpdate.setName(newUser.getName());
+        userToUpdate.setUsername(newUser.getUsername());
+        userToUpdate.getLogin().setEmail(newUser.getEmail());
+
+        Users updatedUser = user_repository.save(userToUpdate);
+
+        return new UserDto(updatedUser);
+    }
+
+    public boolean deleteUser(int id) {
+        Optional <Users> user = user_repository.findById((Integer) id);
+
+        if(user.isPresent()) {
+            Users userToDelete = user.get();
+            int loginId = userToDelete.getLogin().getId();
+            ArrayList<Posts> posts = new ArrayList<>();
+
+            for (Posts post : posts_repository.findAll()) {
+                posts.add(post);
+            }
+
+            for (Posts post : posts) {
+                if (post.getUsers().getId() == id){
+                    posts_repository.deleteById(post.getId());
+                }
+            }
+            user_repository.deleteById((Integer) userToDelete.getId());
+            login_repository.deleteById((Integer) loginId);
+            return true;
+        }
+
+        return false;
+
     }
 }

@@ -1,16 +1,19 @@
 package br.com.burnhop.api.resource;
 
 import br.com.burnhop.model.Dto.CreatedUserDto;
+import br.com.burnhop.model.Dto.UpdatedUserDto;
 import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Users;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
 import io.swagger.annotations.*;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +26,8 @@ public class UsersResource {
 
     UserController userController;
 
-    public UsersResource(LoginRepository login_repository, UsersRepository user_repository){
-        userController = new UserController(login_repository, user_repository);
+    public UsersResource(LoginRepository login_repository, UsersRepository user_repository, PostsRepository posts_repository){
+        userController = new UserController(login_repository, user_repository, posts_repository);
     }
 
     @PostMapping()
@@ -132,6 +135,63 @@ public class UsersResource {
             }
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping()
+    @ApiOperation(value = "Retorna Usuário atualizado")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário atualizado"),
+            @ApiResponse(code = 404, message = "Nenhum usuário foi encontrado"),
+            @ApiResponse(code = 409, message = "Usuário com este e-mail já está cadastrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<UserDto> updateUser(
+            @RequestBody UpdatedUserDto userToUpdate,
+            @RequestParam int id) {
+
+        try {
+            UserDto user = userController.getUserById(id);
+
+            if(user == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            UserDto updatedUser = userController.updateUser(id, userToUpdate);
+
+            if(updatedUser == null)
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping()
+    @ApiOperation(value = "Delete usuário informado")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário deletado com sucesso"),
+            @ApiResponse(code = 404, message = "Nenhum usuário foi encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<String> deleteUser(
+            @RequestParam int id) {
+
+        try {
+            UserDto user = userController.getUserById(id);
+
+            if(user == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            boolean deleted = userController.deleteUser(id);
+
+            if(deleted)
+                return new ResponseEntity<>("Usuário deletado com sucesso", HttpStatus.OK);
+
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
