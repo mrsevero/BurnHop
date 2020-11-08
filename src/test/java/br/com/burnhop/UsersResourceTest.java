@@ -36,9 +36,16 @@ import org.mockito.Mock;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.UsersRepository;
 
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+
+import br.com.burnhop.model.Dto.CreatedPostDto;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@TestMethodOrder(OrderAnnotation.class)
 class UsersResourceTest{
 
     @Autowired
@@ -67,10 +74,29 @@ class UsersResourceTest{
 		createdUserDto.setData_nasc(data_nasc);
 
 		return createdUserDto;
-    }
+	}
+	
+	
+	@Test
+	@Order(1)
+	void testCreateUserRequest() throws Exception{
+
+		CreatedUserDto createdUserDto = makeUser();
+
+		mockMvc.perform(post("/users")
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(createdUserDto)))
+				.andExpect(status().isOk());
+			
+		mockMvc.perform(post("/users")
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(createdUserDto)))
+				.andExpect(status().isConflict());
+	}
     
 	
-    @Test
+	@Test
+	@Order(2)
     void testGetUserByEmail() throws Exception{
         String email = "test1@test.com";
 
@@ -80,6 +106,7 @@ class UsersResourceTest{
     }
 
 	@Test
+	@Order(3)
 	void testLoginRequest() throws Exception{
 
 		CreatedUserDto createdUserDto = makeUser();
@@ -98,4 +125,38 @@ class UsersResourceTest{
 				.header("password", wrongPassword))
 				.andExpect(status().isUnauthorized());	
 	}
+	
+	@Test
+    @Order(4)
+    void testGetAllPostsWithPosts() throws Exception{
+        mockMvc.perform(get("/posts/get-all"))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @Order(5)
+    void testPostingRequest() throws Exception{
+        String texto = "Posting";
+        String user_email = "test1@test.com";
+        
+        CreatedPostDto createdPostDto = new CreatedPostDto();
+
+        createdPostDto.setTexto(texto);
+        createdPostDto.setUser_email(user_email);
+
+		mockMvc.perform(post("/posts")
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(createdPostDto)))
+				.andExpect(status().isOk());
+    }
+
+
+    @Test
+    @Order(6)
+    void testGetAllPosts() throws Exception{
+        mockMvc.perform(get("/posts/get-all"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+	}
+	
 }
