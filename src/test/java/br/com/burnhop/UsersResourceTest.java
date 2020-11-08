@@ -74,7 +74,7 @@ class UsersResourceTest{
     void testGetUserByEmail() throws Exception{
         String email = "test1@test.com";
 
-		mockMvc.perform(get("/users/{email}", email))
+		mockMvc.perform(get("/users/email/{email}", email))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
