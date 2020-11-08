@@ -5,12 +5,8 @@ import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Users;
 
 import java.security.NoSuchAlgorithmException;
-<<<<<<< HEAD
-import java.io.*; 
-=======
 import java.util.ArrayList;
 
->>>>>>> dev
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
