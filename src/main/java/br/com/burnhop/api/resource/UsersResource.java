@@ -5,7 +5,12 @@ import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Users;
 
 import java.security.NoSuchAlgorithmException;
+<<<<<<< HEAD
 import java.io.*; 
+=======
+import java.util.ArrayList;
+
+>>>>>>> dev
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
@@ -70,14 +75,14 @@ public class UsersResource {
         }
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     @ApiOperation(value = "Retorna usuário baseado no e-mail")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Usuário com e-mail"),
             @ApiResponse(code = 404, message = "Usuário com e-mail não encontrado"),
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
-    public ResponseEntity<UserDto> getUser(
+    public ResponseEntity<UserDto> getUserByEmail(
             @PathVariable(value = "email") String email) {
 
         try {
@@ -87,6 +92,49 @@ public class UsersResource {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/id/{id}")
+    @ApiOperation(value = "Retorna usuário baseado no id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário com id"),
+            @ApiResponse(code = 404, message = "Usuário com id não encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<UserDto> getUserById(
+            @PathVariable(value = "id") int id) {
+
+        try {
+            UserDto user = userController.getUserById(id);
+
+            if (user == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get-all")
+    @ApiOperation(value = "Retorna todos os usuários")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Lista de todos os usuários"),
+            @ApiResponse(code = 404, message = "Nenhum usuário foi encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<ArrayList<UserDto>> getAllUsers() {
+
+        try {
+            ArrayList<UserDto> users = userController.getAllUsers();
+
+            if (users.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
