@@ -39,6 +39,7 @@ public class UserController {
         Login login = getLoginByEmail(newUser.getLogin().getEmail());
         if(login == null){
             newUser.getLogin().setPassword(hashPassword(newUser.getLogin().getPassword()));
+            newUser.setImage_path("");
             login_repository.save(newUser.getLogin());
             user_repository.save(newUser);
 
@@ -111,6 +112,20 @@ public class UserController {
         Users updatedUser = user_repository.save(userToUpdate);
 
         return new UserDto(updatedUser);
+    }
+
+    public UserDto updateImagePath(int id, String image) {
+        Optional<Users> userToUpdate = user_repository.findById((Integer) id);
+
+        if(userToUpdate.isPresent()) {
+
+            userToUpdate.get().setImage_path(image);
+            Users updatedUser = user_repository.save(userToUpdate.get());
+
+            return new UserDto(updatedUser);
+        }
+
+        return null;
     }
 
     public boolean deleteUser(int id) {
