@@ -114,6 +114,20 @@ public class UserController {
         return new UserDto(updatedUser);
     }
 
+    public UserDto updateImagePath(int id, String image) {
+        Optional<Users> userToUpdate = user_repository.findById((Integer) id);
+
+        if(userToUpdate.isPresent()) {
+
+            userToUpdate.get().setImage_path(image);
+            Users updatedUser = user_repository.save(userToUpdate.get());
+
+            return new UserDto(updatedUser);
+        }
+
+        return null;
+    }
+
     public boolean deleteUser(int id) {
         Optional <Users> user = user_repository.findById((Integer) id);
 

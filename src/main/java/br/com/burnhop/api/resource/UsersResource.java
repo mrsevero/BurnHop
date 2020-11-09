@@ -168,6 +168,34 @@ public class UsersResource {
         }
     }
 
+    @PutMapping("/image")
+    @ApiOperation(value = "Retorna Usuário atualizado")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário atualizado"),
+            @ApiResponse(code = 404, message = "Nenhum usuário foi encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<UserDto> updateUser(
+            @RequestParam String imagePath,
+            @RequestParam int id) {
+
+        try {
+            UserDto user = userController.getUserById(id);
+
+            if(user == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            UserDto updatedUser = userController.updateImagePath(id, imagePath);
+
+            if(updatedUser == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @DeleteMapping()
     @ApiOperation(value = "Delete usuário informado")
     @ApiResponses({
