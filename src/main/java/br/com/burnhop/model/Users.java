@@ -20,6 +20,8 @@ public class Users {
 
     private Timestamp created_on;
 
+    private String image_path;
+
     @OneToOne(targetEntity=Login.class, fetch=FetchType.EAGER)
     @JoinColumn(name="login_id")
     private Login login;
@@ -81,6 +83,14 @@ public class Users {
 
     public void setLogin(Login login) {
         this.login = login;
+    }
+
+    public String getImage_path() {
+        return image_path;
+    }
+
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
     }
 
     @Override

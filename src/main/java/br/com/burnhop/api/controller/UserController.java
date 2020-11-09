@@ -39,6 +39,7 @@ public class UserController {
         Login login = getLoginByEmail(newUser.getLogin().getEmail());
         if(login == null){
             newUser.getLogin().setPassword(hashPassword(newUser.getLogin().getPassword()));
+            newUser.setImage_path("");
             login_repository.save(newUser.getLogin());
             user_repository.save(newUser);
 
