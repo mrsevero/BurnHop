@@ -17,6 +17,7 @@ CREATE TABLE users
 	data_nasc DATE NOT NULL,
 	created_on TIMESTAMP NOT NULL, 
 	login_id INTEGER NOT NULL,
+	image_path VARCHAR ( 250 ),
 	FOREIGN KEY(login_id) REFERENCES login(id)
 );
 
