@@ -17,8 +17,12 @@ public class UserDto {
     @ApiModelProperty(value = "Uma String que representa o apelido do usuário", example = "Teste_Exemplo_123")
     private String username;
 
+    @ApiModelProperty(value = "Uma String que representa o caminho da imagem do usuário no bucket S3", example = "example/example.jpg")
+    private String image_path;
+
     @ApiModelProperty(value = "Uma String que representa data de nascimento do usuário", example = "2020-10-18")
     private Date data_nasc;
+
 
     private LoginDto login;
 
@@ -32,6 +36,7 @@ public class UserDto {
         this.username = user.getUsername();
         this.data_nasc = user.getData_nasc();
         this.login = new LoginDto(user.getLogin());
+        this.image_path = user.getImage_path();
     }
 
     public String getName() {
@@ -72,5 +77,13 @@ public class UserDto {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getImage_path() {
+        return image_path;
+    }
+
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
     }
 }

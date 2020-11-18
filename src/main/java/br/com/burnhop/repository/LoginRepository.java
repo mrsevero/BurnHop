@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LoginRepository extends CrudRepository<Login, Long> {
+public interface LoginRepository extends CrudRepository<Login, Integer> {
 
     @Query(value = "SELECT * FROM Login where email = :email", nativeQuery = true)
     Login findByEmail(@Param("email") String email);
