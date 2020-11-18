@@ -19,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+
 @RestController()
 @CrossOrigin("*")
 @RequestMapping("/users")
@@ -139,7 +141,7 @@ public class UsersResource {
         }
     }
 
-    @PutMapping()
+    @PutMapping("/update/{id}")
     @ApiOperation(value = "Retorna Usuário atualizado")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Usuário atualizado"),
@@ -149,7 +151,7 @@ public class UsersResource {
     })
     public ResponseEntity<UserDto> updateUser(
             @RequestBody UpdatedUserDto userToUpdate,
-            @RequestParam int id) {
+            @PathVariable(value = "id") int id) {
 
         try {
             UserDto user = userController.getUserById(id);
@@ -157,7 +159,7 @@ public class UsersResource {
             if(user == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-            UserDto updatedUser = userController.updateUser(id, userToUpdate);
+            UserDto updatedUser = userController.updateUser(id, user, userToUpdate);
 
             if(updatedUser == null)
                 return new ResponseEntity<>(HttpStatus.CONFLICT);

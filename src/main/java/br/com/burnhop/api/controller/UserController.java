@@ -96,18 +96,34 @@ public class UserController {
         return Base64.getEncoder().encodeToString(hash);
     }
 
-    public UserDto updateUser(int id, UpdatedUserDto newUser) {
+    public UserDto updateUser(int id, UserDto user, UpdatedUserDto newUser) {
         Users possibleUser = user_repository.findByEmail(newUser.getEmail());
 
         if(possibleUser != null)
             return null;
 
+        Date date = newUser.getData_nasc().isEmpty() ?
+                user.getData_nasc() :
+                Date.valueOf(newUser.getData_nasc());
+
+        String name = newUser.getName().isEmpty() ?
+                user.getName() :
+                newUser.getName();
+
+        String username = newUser.getData_nasc().isEmpty() ?
+                user.getUsername() :
+                newUser.getUsername();
+
+        String email = newUser.getData_nasc().isEmpty() ?
+                user.getLogin().getEmail() :
+                newUser.getEmail();
+
         Users userToUpdate = user_repository.findById((Integer) id).get();
 
-        userToUpdate.setData_nasc(Date.valueOf(newUser.getData_nasc()));
-        userToUpdate.setName(newUser.getName());
-        userToUpdate.setUsername(newUser.getUsername());
-        userToUpdate.getLogin().setEmail(newUser.getEmail());
+        userToUpdate.setData_nasc(date);
+        userToUpdate.setName(name);
+        userToUpdate.setUsername(username);
+        userToUpdate.getLogin().setEmail(email);
 
         Users updatedUser = user_repository.save(userToUpdate);
 
