@@ -1,9 +1,9 @@
 package br.com.burnhop.api.resource;
 
 import br.com.burnhop.api.controller.PostsController;
-import br.com.burnhop.model.Dto.PostDto;
-import br.com.burnhop.model.Dto.CreatedPostDto;
-import br.com.burnhop.model.Posts;
+import br.com.burnhop.model.dto.CreatedPostDto;
+import br.com.burnhop.model.dto.PostDto;
+import br.com.burnhop.model.dto.UpdatedPostDto;
 import br.com.burnhop.repository.ContentRepository;
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.PostsRepository;
@@ -68,6 +68,62 @@ public class PostsResource {
             return new ResponseEntity<>(todos_posts, HttpStatus.OK);
 
         } catch (IllegalAccessError e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    @ApiOperation(value = "Retorna Post atualizado")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Post atualizado"),
+            @ApiResponse(code = 400, message = "Conteúdo não pode ser nulo"),
+            @ApiResponse(code = 404, message = "Nenhum post foi encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<PostDto> updatePost(
+            @RequestBody UpdatedPostDto content,
+            @PathVariable(value = "id") int id) {
+
+        try {
+            if(content.getContent().isBlank())
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+            PostDto post = postController.getPostById(id);
+
+            if(post == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            PostDto updatedPost = postController.updatePost(id, post, content);
+            return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "Delete post informado")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Post deletado com sucesso"),
+            @ApiResponse(code = 404, message = "Nenhum post foi encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<String> deleteUser(
+            @PathVariable (value = "id") int id) {
+
+        try {
+            PostDto post = postController.getPostById(id);
+
+            if(post == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            boolean deleted = postController.deletePost(id);
+
+            if(deleted)
+                return new ResponseEntity<>("Post deletado com sucesso", HttpStatus.OK);
+
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

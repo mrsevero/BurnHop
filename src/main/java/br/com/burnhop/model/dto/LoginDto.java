@@ -1,4 +1,4 @@
-package br.com.burnhop.model.Dto;
+package br.com.burnhop.model.dto;
 
 import br.com.burnhop.model.Login;
 import io.swagger.annotations.ApiModelProperty;
