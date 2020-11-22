@@ -2,12 +2,16 @@ package br.com.burnhop.api.controller;
 
 import br.com.burnhop.model.Content;
 import br.com.burnhop.model.Dto.PostDto;
+import br.com.burnhop.model.Dto.UpdatedPostDto;
+import br.com.burnhop.model.Dto.UpdatedUserDto;
+import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Posts;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.ContentRepository;
 import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
@@ -46,6 +50,29 @@ public class PostsController {
         }
 
         return posts;
+    }
+
+    public PostDto getPostById(int id) {
+        Optional<Posts> post = posts_repository.findById((Integer) id);
+
+        return post.map(PostDto::new).orElse(null);
+    }
+
+    public PostDto updatePost(int id, PostDto post, UpdatedPostDto content) {
+        Posts postToUpdate = posts_repository.findById((Integer) id).get();
+
+        Content newContent = new Content();
+
+        newContent.setId(postToUpdate.getContent().getId());
+        newContent.setText(content.getContent());
+
+        Content updatedContent = content_repository.save(newContent);
+
+        postToUpdate.setContent(updatedContent);
+
+        Posts updatedPost = posts_repository.save(postToUpdate);
+
+        return new PostDto(updatedPost);
     }
 
 }

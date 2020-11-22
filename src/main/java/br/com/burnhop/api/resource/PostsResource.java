@@ -1,8 +1,7 @@
 package br.com.burnhop.api.resource;
 
 import br.com.burnhop.api.controller.PostsController;
-import br.com.burnhop.model.Dto.PostDto;
-import br.com.burnhop.model.Dto.CreatedPostDto;
+import br.com.burnhop.model.Dto.*;
 import br.com.burnhop.model.Posts;
 import br.com.burnhop.repository.ContentRepository;
 import br.com.burnhop.repository.UsersRepository;
@@ -68,6 +67,34 @@ public class PostsResource {
             return new ResponseEntity<>(todos_posts, HttpStatus.OK);
 
         } catch (IllegalAccessError e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    @ApiOperation(value = "Retorna Post atualizado")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Post atualizado"),
+            @ApiResponse(code = 400, message = "Conteúdo não pode ser nulo"),
+            @ApiResponse(code = 404, message = "Nenhum post foi encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<PostDto> updatePost(
+            @RequestBody UpdatedPostDto content,
+            @PathVariable(value = "id") int id) {
+
+        try {
+            if(content.getContent().isBlank())
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+            PostDto post = postController.getPostById(id);
+
+            if(post == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            PostDto updatedPost = postController.updatePost(id, post, content);
+            return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
