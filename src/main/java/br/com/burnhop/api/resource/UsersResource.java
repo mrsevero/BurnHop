@@ -1,9 +1,8 @@
 package br.com.burnhop.api.resource;
 
-import br.com.burnhop.model.Dto.CreatedUserDto;
-import br.com.burnhop.model.Dto.UpdatedUserDto;
-import br.com.burnhop.model.Dto.UserDto;
-import br.com.burnhop.model.Users;
+import br.com.burnhop.model.dto.CreatedUserDto;
+import br.com.burnhop.model.dto.UpdatedUserDto;
+import br.com.burnhop.model.dto.UserDto;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -13,13 +12,10 @@ import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
 import io.swagger.annotations.*;
-import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.websocket.server.PathParam;
 
 @RestController()
 @CrossOrigin("*")

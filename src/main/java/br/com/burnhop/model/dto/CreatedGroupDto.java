@@ -1,12 +1,8 @@
-package br.com.burnhop.model.Dto;
+package br.com.burnhop.model.dto;
 
 import br.com.burnhop.model.Groups;
-import br.com.burnhop.model.Users;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class CreatedGroupDto {

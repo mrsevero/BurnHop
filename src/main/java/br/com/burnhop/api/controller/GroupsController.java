@@ -1,21 +1,14 @@
 package br.com.burnhop.api.controller;
 
-import br.com.burnhop.model.Dto.CreatedGroupDto;
-import br.com.burnhop.model.Dto.UserDto;
-import br.com.burnhop.model.Dto.GroupDto;
+import br.com.burnhop.model.dto.CreatedGroupDto;
+import br.com.burnhop.model.dto.GroupDto;
 import br.com.burnhop.model.Groups;
-import br.com.burnhop.model.Login;
-import br.com.burnhop.model.Posts;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.GroupsRepository;
 import br.com.burnhop.repository.UsersRepository;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Optional;
 
 public class GroupsController {
