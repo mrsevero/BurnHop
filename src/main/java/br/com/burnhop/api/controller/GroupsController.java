@@ -49,6 +49,17 @@ public class GroupsController {
         return groups;
     }
 
+    public ArrayList<GroupDto> getAllGroupsByUser(UserDto user) {
+        ArrayList<GroupDto> groups = new ArrayList<>();
+
+        for (UsersGroups group : usersGroupsRepository.findAll()) {
+            if(group.getUser().getId() == user.getId())
+                groups.add(new GroupDto(groupsRepository.findById(group.getGroup().getId()).get()));
+        }
+
+        return groups;
+    }
+
     public GroupDto getGroupByName(String name){
         Optional<Groups> group = groupsRepository.findByName(name);
         return group.map(GroupDto::new).orElse(null);

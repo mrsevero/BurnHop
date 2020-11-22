@@ -10,6 +10,7 @@ import br.com.burnhop.repository.*;
 import br.com.burnhop.api.controller.GroupsController;
 import br.com.burnhop.api.controller.UserController;
 import io.swagger.annotations.*;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -96,6 +97,35 @@ public class GroupsResource {
 
         try {
             ArrayList<GroupDto> groups = groupsController.getAllGroups();
+
+            if(groups.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            return new ResponseEntity<>(groups, HttpStatus.OK);
+
+        } catch (IllegalAccessError e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/user/{id}")
+    @ApiOperation(value = "Todos os Grupos relacionados ao Usuário", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Grupos retornados com sucesso"),
+            @ApiResponse(code = 204, message = "Não existe nenhum grupo relacionado ao usuário"),
+            @ApiResponse(code = 404, message = "Não existe nenhum usuário com id informado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<ArrayList<GroupDto>> getAllGroupsByUser(
+            @PathVariable(value = "id") int id){
+
+        try {
+            UserDto user = userController.getUserById(id);
+
+            if(user == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            ArrayList<GroupDto> groups = groupsController.getAllGroupsByUser(user);
 
             if(groups.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
