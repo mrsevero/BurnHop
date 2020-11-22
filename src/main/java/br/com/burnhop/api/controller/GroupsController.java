@@ -75,7 +75,7 @@ public class GroupsController {
             usersGroupsRepository.save(usersGroups);
 
             Optional<UsersGroups> newUsersGroups = usersGroupsRepository.findByGroupAndUserId(
-                    usersGroups.getGroup().getId_groups(), usersGroups.getUser().getId());
+                    usersGroups.getGroup().getId(), usersGroups.getUser().getId());
 
             if(newUsersGroups.isPresent()) {
                 return new UsersGroupsDto(newUsersGroups.get());
@@ -91,7 +91,7 @@ public class GroupsController {
         if(group.isPresent()) {
             Groups groupToDelete = group.get();
 
-            groupsRepository.deleteById(groupToDelete.getId_groups());
+            groupsRepository.deleteById(groupToDelete.getId());
             return true;
         }
 

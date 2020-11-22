@@ -1,6 +1,7 @@
 package br.com.burnhop.api.controller;
 
 import br.com.burnhop.model.Content;
+import br.com.burnhop.model.dto.GroupDto;
 import br.com.burnhop.model.dto.PostDto;
 import br.com.burnhop.model.dto.UpdatedPostDto;
 import br.com.burnhop.model.Posts;
@@ -54,6 +55,17 @@ public class PostsController {
 
         for (Posts post : posts_repository.findAll()) {
             if(post.getUsers().getId() == user.getId())
+                posts.add(new PostDto(post));
+        }
+
+        return posts;
+    }
+
+    public ArrayList<PostDto> getAllPostsByGroup(GroupDto group) {
+        ArrayList<PostDto> posts = new ArrayList<>();
+
+        for (Posts post : posts_repository.findAll()) {
+            if(post.getGroup() != null && post.getGroup().getId() == group.getId())
                 posts.add(new PostDto(post));
         }
 
