@@ -25,8 +25,8 @@ import java.util.ArrayList;
 @RequestMapping("/posts")
 public class PostsResource {
 
-    PostsController postController;
-    UserController userController;
+    private final PostsController postController;
+    private final UserController userController;
     UsersRepository usersRepository;
 
     public PostsResource(PostsRepository post_repository,
