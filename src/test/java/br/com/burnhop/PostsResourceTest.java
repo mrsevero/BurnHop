@@ -62,7 +62,7 @@ class PostsResourceTest {
 
 
 
-    CreatedPostDto makePost(String email){
+    private CreatedPostDto makePost(String email){
 	
 		CreatedPostDto createdPostDto = new CreatedPostDto();
         String texto = "texto de postagem";
