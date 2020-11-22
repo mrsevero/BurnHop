@@ -5,6 +5,7 @@ import br.com.burnhop.model.dto.PostDto;
 import br.com.burnhop.model.dto.UpdatedPostDto;
 import br.com.burnhop.model.Posts;
 import br.com.burnhop.model.Users;
+import br.com.burnhop.model.dto.UserDto;
 import br.com.burnhop.repository.ContentRepository;
 import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
@@ -43,6 +44,17 @@ public class PostsController {
 
         for (Posts post : posts_repository.findAll()) {
             posts.add(new PostDto(post));
+        }
+
+        return posts;
+    }
+
+    public ArrayList<PostDto> getAllPostsByUser(UserDto user) {
+        ArrayList<PostDto> posts = new ArrayList<>();
+
+        for (Posts post : posts_repository.findAll()) {
+            if(post.getUsers().getId() == user.getId())
+                posts.add(new PostDto(post));
         }
 
         return posts;
