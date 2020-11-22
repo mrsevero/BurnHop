@@ -8,8 +8,14 @@ import java.sql.Timestamp;
 
 public class PostDto {
 
+    @ApiModelProperty(value = "Um inteiro que representa o identificador do post", example = "10")
+    private int id;
+
     @ApiModelProperty(value = "Uma String que representa o apelido do usuario do post", example = "Exemplo")
     private String username;
+
+    @ApiModelProperty(value = "Uma String que representa o caminho da imagem do usuario do post", example = "user-images/teste.jpg")
+    private String image_path;
 
     @ApiModelProperty(value = "Uma String que representa o texto do post", example = "artigo de como fazer um passinho do hip-hop")
     private String texto;
@@ -22,7 +28,9 @@ public class PostDto {
     }
 
     public PostDto(Posts post) {
+        this.id = post.getId();
         this.username = post.getUsers().getUsername();
+        this.image_path = post.getUsers().getImage_path();
         this.texto = post.getContent().getText();
         this.dataPost = post.getPosted_on();
     }
@@ -49,5 +57,21 @@ public class PostDto {
 
     public void setDataPost(Timestamp dataPost) {
         this.dataPost = dataPost;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getImage_path() {
+        return image_path;
+    }
+
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
     }
 }
