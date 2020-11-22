@@ -10,6 +10,7 @@ import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.ContentRepository;
 import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
+import com.fasterxml.jackson.databind.node.POJONode;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -73,6 +74,23 @@ public class PostsController {
         Posts updatedPost = posts_repository.save(postToUpdate);
 
         return new PostDto(updatedPost);
+    }
+
+    public boolean deletePost(int id) {
+        Optional<Posts> post = posts_repository.findById((Integer) id);
+
+        if(post.isPresent()) {
+            Posts postToDelete = post.get();
+            int contentId = postToDelete.getContent().getId();
+            ArrayList<Posts> posts = new ArrayList<>();
+
+            posts_repository.deleteById((Integer) postToDelete.getId());
+            content_repository.deleteById((Integer) contentId);
+            return true;
+        }
+
+        return false;
+
     }
 
 }

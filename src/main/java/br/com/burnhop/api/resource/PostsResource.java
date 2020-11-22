@@ -98,4 +98,32 @@ public class PostsResource {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "Delete post informado")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Post deletado com sucesso"),
+            @ApiResponse(code = 404, message = "Nenhum post foi encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<String> deleteUser(
+            @PathVariable (value = "id") int id) {
+
+        try {
+            PostDto post = postController.getPostById(id);
+
+            if(post == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            boolean deleted = postController.deletePost(id);
+
+            if(deleted)
+                return new ResponseEntity<>("Post deletado com sucesso", HttpStatus.OK);
+
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
