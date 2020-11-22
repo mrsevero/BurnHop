@@ -1,10 +1,9 @@
-package br.com.burnhop.model.Dto;
+package br.com.burnhop.model.dto;
 
 import br.com.burnhop.model.Users;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 public class UserDto {
 

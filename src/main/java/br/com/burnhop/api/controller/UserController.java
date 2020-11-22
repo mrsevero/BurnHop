@@ -1,26 +1,19 @@
 package br.com.burnhop.api.controller;
 
-import br.com.burnhop.model.Dto.CreatedUserDto;
-import br.com.burnhop.model.Dto.PostDto;
-import br.com.burnhop.model.Dto.UpdatedUserDto;
-import br.com.burnhop.model.Dto.UserDto;
+import br.com.burnhop.model.dto.UpdatedUserDto;
+import br.com.burnhop.model.dto.UserDto;
 import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Posts;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
 import java.util.Optional;
 
 public class UserController {

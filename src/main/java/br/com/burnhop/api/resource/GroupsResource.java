@@ -1,16 +1,10 @@
 package br.com.burnhop.api.resource;
 
-import br.com.burnhop.api.controller.PostsController;
-import br.com.burnhop.model.Dto.CreatedUserDto;
-import br.com.burnhop.model.Dto.CreatedGroupDto;
-import br.com.burnhop.model.Dto.UserDto;
-import br.com.burnhop.model.Dto.GroupDto;
-import br.com.burnhop.model.Groups;
+import br.com.burnhop.model.dto.CreatedGroupDto;
+import br.com.burnhop.model.dto.GroupDto;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
-import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.GroupsRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.PostsRepository;
