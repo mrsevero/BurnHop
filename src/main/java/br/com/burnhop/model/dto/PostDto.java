@@ -1,9 +1,8 @@
-package br.com.burnhop.model.Dto;
+package br.com.burnhop.model.dto;
 
 import br.com.burnhop.model.Posts;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class PostDto {
@@ -67,11 +66,11 @@ public class PostDto {
         this.id = id;
     }
 
-    public String getImage_path() {
+    public String getImagePath() {
         return image_path;
     }
 
-    public void setImage_path(String image_path) {
+    public void setImagePath(String image_path) {
         this.image_path = image_path;
     }
 }

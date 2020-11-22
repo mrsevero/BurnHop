@@ -1,12 +1,10 @@
-package br.com.burnhop.model.Dto;
+package br.com.burnhop.model.dto;
 
 import br.com.burnhop.model.Content;
 import br.com.burnhop.model.Posts;
 import br.com.burnhop.repository.UsersRepository;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class CreatedPostDto {

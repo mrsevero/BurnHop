@@ -1,20 +1,15 @@
 package br.com.burnhop.api.controller;
 
 import br.com.burnhop.model.Content;
-import br.com.burnhop.model.Dto.PostDto;
-import br.com.burnhop.model.Dto.UpdatedPostDto;
-import br.com.burnhop.model.Dto.UpdatedUserDto;
-import br.com.burnhop.model.Dto.UserDto;
+import br.com.burnhop.model.dto.PostDto;
+import br.com.burnhop.model.dto.UpdatedPostDto;
 import br.com.burnhop.model.Posts;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.ContentRepository;
 import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
-import com.fasterxml.jackson.databind.node.POJONode;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Optional;
 
 public class PostsController {
@@ -82,7 +77,6 @@ public class PostsController {
         if(post.isPresent()) {
             Posts postToDelete = post.get();
             int contentId = postToDelete.getContent().getId();
-            ArrayList<Posts> posts = new ArrayList<>();
 
             posts_repository.deleteById((Integer) postToDelete.getId());
             content_repository.deleteById((Integer) contentId);
