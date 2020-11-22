@@ -106,21 +106,23 @@ class UsersResourceTest {
 				.content(objectMapper.writeValueAsString(createdUserDto)))
 				.andExpect(status().isConflict());
 	}
-	
+	/*
 	@Test
 	void testDeleteUser() throws Exception{
-		saveUser("getalluser");
-		String id = String.valueOf(getUserId("getalluser@email.com"));
+		saveUser("deleteuser");
+		String id = String.valueOf(getUserId("deleteuser@email.com"));
 
-		mockMvc.perform(delete("/users")
+		mockMvc.perform(MockMvcRequestBuilders
+			    .delete("/users")
 				.queryParam("id", id))
 				.andExpect(status().isOk());
 
-		mockMvc.perform(delete("/users")
+		mockMvc.perform(MockMvcRequestBuilders
+			    .delete("/users")
 				.queryParam("id", id))
 				.andExpect(status().isNotFound());
 
-	}
+	}*/
   	
 	@Test
     void testGetUserByEmail() throws Exception{
@@ -153,6 +155,8 @@ class UsersResourceTest {
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 	}
 
+
+	/*
 	@Test
 	void testSetImage() throws Exception{
 		String image_path = "example/example.jpg";
@@ -165,8 +169,9 @@ class UsersResourceTest {
                 .andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 	}
+
 	
-	/*
+	
 	@Test
 	void testLoginRequest() throws Exception{
 		
