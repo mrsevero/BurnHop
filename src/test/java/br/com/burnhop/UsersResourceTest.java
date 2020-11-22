@@ -1,14 +1,17 @@
 package br.com.burnhop;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import br.com.burnhop.model.Dto.CreatedLoginDto;
-import br.com.burnhop.model.Dto.CreatedUserDto;
-import br.com.burnhop.model.Dto.UserDto;
+import br.com.burnhop.model.dto.CreatedLoginDto;
+import br.com.burnhop.model.dto.CreatedUserDto;
+import br.com.burnhop.model.dto.UserDto;
 import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
