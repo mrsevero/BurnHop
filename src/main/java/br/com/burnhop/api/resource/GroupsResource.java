@@ -4,6 +4,7 @@ import br.com.burnhop.model.dto.CreatedGroupDto;
 import br.com.burnhop.model.dto.GroupDto;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import br.com.burnhop.repository.GroupsRepository;
 import br.com.burnhop.repository.LoginRepository;
@@ -46,6 +47,28 @@ public class GroupsResource {
             }
             return new ResponseEntity<>(group, HttpStatus.OK);
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get-all")
+    @ApiOperation(value = "Todos os Grupos", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Grupos retornados com sucesso"),
+            @ApiResponse(code = 204, message = "Não existe nenhum grupo registrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<ArrayList<GroupDto>> getAllGroups(){
+
+        try {
+            ArrayList<GroupDto> groups = groupsController.getAllGroups();
+
+            if(groups.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            return new ResponseEntity<>(groups, HttpStatus.OK);
+
+        } catch (IllegalAccessError e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

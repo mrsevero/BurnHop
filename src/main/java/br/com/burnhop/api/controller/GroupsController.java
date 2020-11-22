@@ -7,8 +7,8 @@ import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.GroupsRepository;
 import br.com.burnhop.repository.UsersRepository;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class GroupsController {
@@ -21,8 +21,8 @@ public class GroupsController {
         this.usersRepository = usersRepository;
     }
 
-    public GroupDto createGroup(CreatedGroupDto newGroup) throws NoSuchAlgorithmException {
-        Optional<Users> user = usersRepository.findById((Integer) newGroup.getAdmin());
+    public GroupDto createGroup(CreatedGroupDto newGroup) {
+        Optional<Users> user = usersRepository.findById(newGroup.getAdmin());
         if(user.isPresent()) {
             GroupDto gpname = getGroupByName(newGroup.getName());
             if (gpname == null) {
@@ -30,12 +30,20 @@ public class GroupsController {
                 group.setAdmin(user.get());
                 groupsRepository.save(group);
 
-                GroupDto groupcreated = getGroupByName(group.getName());
-
-                return groupcreated;
+                return getGroupByName(group.getName());
             }
         }
         return null;
+    }
+
+    public ArrayList<GroupDto> getAllGroups() {
+        ArrayList<GroupDto> groups = new ArrayList<>();
+
+        for (Groups group : groupsRepository.findAll()) {
+            groups.add(new GroupDto(group));
+        }
+
+        return groups;
     }
 
     public GroupDto getGroupByName(String name){
@@ -44,17 +52,17 @@ public class GroupsController {
     }
 
     public GroupDto getGroupById(int id) {
-        Optional<Groups> group = groupsRepository.findById((Integer) id);
+        Optional<Groups> group = groupsRepository.findById(id);
         return group.map(GroupDto::new).orElse(null);
     }
 
     public boolean deleteGroup(int id) {
-        Optional <Groups> group = groupsRepository.findById((Integer) id);
+        Optional <Groups> group = groupsRepository.findById(id);
 
         if(group.isPresent()) {
             Groups groupToDelete = group.get();
 
-            groupsRepository.deleteById((Integer) groupToDelete.getId_groups());
+            groupsRepository.deleteById(groupToDelete.getId_groups());
             return true;
         }
 
