@@ -28,35 +28,4 @@ class BackendApplicationTests {
 	void contextLoads() {
 
 	}
-	/*
-	@Test
-    void testGetAllPostsWithPosts() throws Exception{
-        mockMvc.perform(get("/posts/get-all"))
-                .andExpect(status().isNoContent());
-    }
-
-    @Test
-    void testPostingRequest() throws Exception{
-        String texto = "Posting";
-        String user_email = "test1@test.com";
-        
-        CreatedPostDto createdPostDto = new CreatedPostDto();
-
-        createdPostDto.setTexto(texto);
-        createdPostDto.setUser_email(user_email);
-
-		mockMvc.perform(post("/posts")
-				.contentType("application/json")
-				.content(objectMapper.writeValueAsString(createdPostDto)))
-				.andExpect(status().isOk());
-    }
-
-
-    @Test
-    void testGetAllPosts() throws Exception{
-        mockMvc.perform(get("/posts/get-all"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-	}
-	*/
 }

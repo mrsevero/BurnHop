@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.burnhop.model.Dto.CreatedLoginDto;
@@ -14,12 +13,10 @@ import br.com.burnhop.model.Dto.CreatedUserDto;
 import br.com.burnhop.model.Dto.UserDto;
 import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Users;
-import br.com.burnhop.api.controller.UserController;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.UsersRepository;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
@@ -53,7 +50,7 @@ class UsersResourceTest {
 	@Autowired
 	private UsersRepository usersRepository;
 
-    CreatedUserDto makeUser(){
+    private CreatedUserDto makeUser(){
 		String name = "Test";
 		String username = "test";
 		String data_nasc = "2000-01-01";
@@ -74,7 +71,7 @@ class UsersResourceTest {
 		return createdUserDto;
 	}
 
-	void saveUser(String name){
+	private void saveUser(String name){
 		Date data_nasc = Date.valueOf("2000-01-01");
 		Timestamp created_on = new Timestamp(System.currentTimeMillis());
 	
@@ -86,7 +83,7 @@ class UsersResourceTest {
 		usersRepository.save(newUser);
 	}
 
-	int getUserId(String email){
+	private int getUserId(String email){
 		Users user = usersRepository.findByEmail(email);
 		return user.getId();
 	}
