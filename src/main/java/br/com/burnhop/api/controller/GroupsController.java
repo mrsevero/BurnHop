@@ -1,10 +1,11 @@
 package br.com.burnhop.api.controller;
 
-import br.com.burnhop.model.dto.CreatedGroupDto;
-import br.com.burnhop.model.dto.GroupDto;
+import br.com.burnhop.model.UsersGroups;
+import br.com.burnhop.model.dto.*;
 import br.com.burnhop.model.Groups;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.GroupsRepository;
+import br.com.burnhop.repository.UsersGroupsRepository;
 import br.com.burnhop.repository.UsersRepository;
 
 import java.sql.Timestamp;
@@ -15,10 +16,12 @@ public class GroupsController {
 
     GroupsRepository groupsRepository;
     UsersRepository usersRepository;
+    UsersGroupsRepository usersGroupsRepository;
 
-    public GroupsController(GroupsRepository groupsRepository, UsersRepository usersRepository){
+    public GroupsController(GroupsRepository groupsRepository, UsersRepository usersRepository, UsersGroupsRepository usersGroupsRepository){
         this.groupsRepository = groupsRepository;
         this.usersRepository = usersRepository;
+        this.usersGroupsRepository = usersGroupsRepository;
     }
 
     public GroupDto createGroup(CreatedGroupDto newGroup) {
@@ -54,6 +57,32 @@ public class GroupsController {
     public GroupDto getGroupById(int id) {
         Optional<Groups> group = groupsRepository.findById(id);
         return group.map(GroupDto::new).orElse(null);
+    }
+
+    public UsersGroupsDto associateUserToGroup(AssociatedUserGroupDto userAssociated) {
+        Optional<Users> user = usersRepository.findById(userAssociated.getUserId());
+        Optional<Groups> group = groupsRepository.findById(userAssociated.getGroupId());
+
+        Optional<UsersGroups> possibleUsersGroups = usersGroupsRepository.findByGroupAndUserId(
+                userAssociated.getGroupId(),
+                userAssociated.getUserId());
+
+        if(possibleUsersGroups.isEmpty()) {
+            UsersGroups usersGroups = new UsersGroups();
+            usersGroups.setUser(user.get());
+            usersGroups.setGroup(group.get());
+
+            usersGroupsRepository.save(usersGroups);
+
+            Optional<UsersGroups> newUsersGroups = usersGroupsRepository.findByGroupAndUserId(
+                    usersGroups.getGroup().getId_groups(), usersGroups.getUser().getId());
+
+            if(newUsersGroups.isPresent()) {
+                return new UsersGroupsDto(newUsersGroups.get());
+            }
+        }
+
+        return null;
     }
 
     public boolean deleteGroup(int id) {

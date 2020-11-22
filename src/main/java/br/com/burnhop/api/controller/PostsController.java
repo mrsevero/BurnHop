@@ -55,7 +55,7 @@ public class PostsController {
     }
 
     public PostDto updatePost(int id, PostDto post, UpdatedPostDto content) {
-        Posts postToUpdate = posts_repository.findById((Integer) id).get();
+        Posts postToUpdate = posts_repository.findById(id).get();
 
         Content newContent = new Content();
 

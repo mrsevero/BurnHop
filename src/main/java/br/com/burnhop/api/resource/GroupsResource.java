@@ -1,15 +1,12 @@
 package br.com.burnhop.api.resource;
 
-import br.com.burnhop.model.dto.CreatedGroupDto;
-import br.com.burnhop.model.dto.GroupDto;
+import br.com.burnhop.model.Users;
+import br.com.burnhop.model.dto.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-import br.com.burnhop.repository.GroupsRepository;
-import br.com.burnhop.repository.LoginRepository;
-import br.com.burnhop.repository.PostsRepository;
-import br.com.burnhop.repository.UsersRepository;
+import br.com.burnhop.repository.*;
 import br.com.burnhop.api.controller.GroupsController;
 import br.com.burnhop.api.controller.UserController;
 import io.swagger.annotations.*;
@@ -26,8 +23,12 @@ public class GroupsResource {
     GroupsController groupsController;
     UserController userController;
 
-    public GroupsResource(GroupsRepository groupsRepository, UsersRepository usersRepository, LoginRepository loginRepository, PostsRepository postsRepository){
-        this.groupsController = new GroupsController(groupsRepository, usersRepository);
+    public GroupsResource(GroupsRepository groupsRepository,
+                          UsersRepository usersRepository,
+                          UsersGroupsRepository usersGroupsRepository,
+                          LoginRepository loginRepository,
+                          PostsRepository postsRepository){
+        this.groupsController = new GroupsController(groupsRepository, usersRepository, usersGroupsRepository);
         this.userController = new UserController(loginRepository, usersRepository, postsRepository);
     }
 
@@ -47,6 +48,39 @@ public class GroupsResource {
             }
             return new ResponseEntity<>(group, HttpStatus.OK);
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/user")
+    @ApiOperation(value = "Associar usuário a um grupo", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Usuário associado com sucesso"),
+            @ApiResponse(code = 404, message = "Id do usuário ou grupo inválido"),
+            @ApiResponse(code = 409, message = "Usuário já está associado ao grupo"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<UsersGroupsDto> associateUser(@RequestBody AssociatedUserGroupDto userAssociated) throws NoSuchAlgorithmException {
+
+        try {
+            UserDto user = userController.getUserById(userAssociated.getUserId());
+
+            if(user == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            GroupDto group = groupsController.getGroupById(userAssociated.getGroupId());
+
+            if (group == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            UsersGroupsDto groupAssociated = groupsController.associateUserToGroup(userAssociated);
+
+            if(groupAssociated == null)
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+            return new ResponseEntity<>(groupAssociated, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
