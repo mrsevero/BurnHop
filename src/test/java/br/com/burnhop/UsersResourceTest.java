@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.burnhop.model.dto.CreatedLoginDto;
 import br.com.burnhop.model.dto.CreatedUserDto;
-import br.com.burnhop.model.dto.UserDto;
 import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
@@ -24,13 +23,6 @@ import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import org.mockito.MockitoAnnotations;
-import org.mockito.Mock;
-
 
 
 @SpringBootTest
