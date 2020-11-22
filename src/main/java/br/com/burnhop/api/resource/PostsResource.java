@@ -1,7 +1,9 @@
 package br.com.burnhop.api.resource;
 
 import br.com.burnhop.api.controller.PostsController;
-import br.com.burnhop.model.dto.*;
+import br.com.burnhop.model.dto.CreatedPostDto;
+import br.com.burnhop.model.dto.PostDto;
+import br.com.burnhop.model.dto.UpdatedPostDto;
 import br.com.burnhop.repository.ContentRepository;
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.PostsRepository;
