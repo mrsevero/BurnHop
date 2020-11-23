@@ -52,6 +52,8 @@ CREATE TABLE groups(
     id_groups INTEGER PRIMARY KEY,
     admin_id INTEGER NOT NULL,
     name VARCHAR(500) NOT NULL,
+    description VARCHAR(2000),
+    genre VARCHAR(20),
     created_group_on TIMESTAMP NOT NULL,
     FOREIGN KEY (admin_id) REFERENCES users(id)
 );
