@@ -1,7 +1,6 @@
 package br.com.burnhop.model;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name = "usersgroups")

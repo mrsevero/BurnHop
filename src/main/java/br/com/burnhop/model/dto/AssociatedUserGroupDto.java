@@ -1,9 +1,6 @@
 package br.com.burnhop.model.dto;
 
-import br.com.burnhop.model.Groups;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.sql.Timestamp;
 
 public class AssociatedUserGroupDto {
 

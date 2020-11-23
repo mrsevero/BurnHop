@@ -1,9 +1,9 @@
 package br.com.burnhop.api.controller;
 
 import br.com.burnhop.model.UsersGroups;
-import br.com.burnhop.model.dto.*;
 import br.com.burnhop.model.Groups;
 import br.com.burnhop.model.Users;
+import br.com.burnhop.model.dto.*;
 import br.com.burnhop.repository.GroupsRepository;
 import br.com.burnhop.repository.UsersGroupsRepository;
 import br.com.burnhop.repository.UsersRepository;
@@ -14,9 +14,9 @@ import java.util.Optional;
 
 public class GroupsController {
 
-    GroupsRepository groupsRepository;
-    UsersRepository usersRepository;
-    UsersGroupsRepository usersGroupsRepository;
+    private final GroupsRepository groupsRepository;
+    private final UsersRepository usersRepository;
+    private final UsersGroupsRepository usersGroupsRepository;
 
     public GroupsController(GroupsRepository groupsRepository, UsersRepository usersRepository, UsersGroupsRepository usersGroupsRepository){
         this.groupsRepository = groupsRepository;

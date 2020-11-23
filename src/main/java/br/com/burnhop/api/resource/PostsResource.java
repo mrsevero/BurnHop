@@ -3,7 +3,6 @@ package br.com.burnhop.api.resource;
 import br.com.burnhop.api.controller.GroupsController;
 import br.com.burnhop.api.controller.PostsController;
 import br.com.burnhop.api.controller.UserController;
-import br.com.burnhop.model.UsersGroups;
 import br.com.burnhop.model.dto.*;
 import br.com.burnhop.repository.*;
 import io.swagger.annotations.ApiOperation;

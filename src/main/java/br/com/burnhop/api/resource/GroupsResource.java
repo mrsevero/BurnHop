@@ -1,16 +1,16 @@
 package br.com.burnhop.api.resource;
 
-import br.com.burnhop.model.Users;
 import br.com.burnhop.model.dto.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-import br.com.burnhop.repository.*;
 import br.com.burnhop.api.controller.GroupsController;
 import br.com.burnhop.api.controller.UserController;
-import io.swagger.annotations.*;
-import org.apache.catalina.User;
+import br.com.burnhop.repository.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

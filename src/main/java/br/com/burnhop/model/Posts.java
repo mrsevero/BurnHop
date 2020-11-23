@@ -1,10 +1,6 @@
 package br.com.burnhop.model;
 
-import br.com.burnhop.model.dto.GroupDto;
-
 import javax.persistence.*;
-import javax.swing.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity

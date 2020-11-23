@@ -1,6 +1,5 @@
 package br.com.burnhop.model.dto;
 
-import br.com.burnhop.model.Groups;
 import br.com.burnhop.model.UsersGroups;
 import io.swagger.annotations.ApiModelProperty;
 
