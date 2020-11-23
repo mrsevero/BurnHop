@@ -1,6 +1,10 @@
 package br.com.burnhop.api.resource;
 
-import br.com.burnhop.model.dto.*;
+import br.com.burnhop.model.dto.CreatedGroupDto;
+import br.com.burnhop.model.dto.GroupDto;
+import br.com.burnhop.model.dto.AssociatedUserGroupDto;
+import br.com.burnhop.model.dto.UserDto;
+import br.com.burnhop.model.dto.UsersGroupsDto;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
