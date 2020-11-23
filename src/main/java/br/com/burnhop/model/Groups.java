@@ -12,6 +12,10 @@ public class Groups {
 
     private String name;
 
+    private String description;
+
+    private String genre;
+
     private Timestamp created_group_on;
 
     @ManyToOne(targetEntity=Users.class, fetch= FetchType.EAGER)
@@ -22,8 +26,10 @@ public class Groups {
 
     }
 
-    public Groups(String name, Timestamp created_group_on){
+    public Groups(String name, String description, String genre, Timestamp created_group_on){
         this.name = name;
+        this.description = description;
+        this.genre = genre;
         this.created_group_on = created_group_on;
     }
 
@@ -62,5 +68,21 @@ public class Groups {
     @Override
     public String toString(){
         return "Nome: "+this.name+"\nCriador: "+this.getAdmin().getLogin().getEmail()+"\nCriado em: "+this.getCreated_group_on();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }

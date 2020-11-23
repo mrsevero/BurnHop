@@ -30,7 +30,10 @@ public class GroupsController {
         if(user.isPresent()) {
             GroupDto gpname = getGroupByName(newGroup.getName());
             if (gpname == null) {
-                Groups group = new Groups(newGroup.getName(), new Timestamp(System.currentTimeMillis()));
+                Groups group = new Groups(newGroup.getName(),
+                        newGroup.getDescription(),
+                        newGroup.getGenre(),
+                        new Timestamp(System.currentTimeMillis()));
                 group.setAdmin(user.get());
                 groupsRepository.save(group);
 
@@ -107,9 +110,19 @@ public class GroupsController {
                 group.getName() :
                 newGroup.getName();
 
+        String description = newGroup.getDescription().isEmpty() ?
+                group.getDescription() :
+                newGroup.getDescription();
+
+        String genre = newGroup.getGenre().isEmpty() ?
+                group.getGenre() :
+                newGroup.getGenre();
+
         Groups groupToUpdate = groupsRepository.findById(id).get();
 
         groupToUpdate.setName(name);
+        groupToUpdate.setDescription(description);
+        groupToUpdate.setGenre(genre);
 
         Groups updatedGroup = groupsRepository.save(groupToUpdate);
 

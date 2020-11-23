@@ -47,8 +47,19 @@ public class GroupsResource {
             if (group == null) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
+
+            AssociatedUserGroupDto userAssociated = new AssociatedUserGroupDto();
+            userAssociated.setUserId(group.getAdmin().getId());
+            userAssociated.setGroupId(group.getId());
+
+            UsersGroupsDto groupAssociated = groupsController.associateUserToGroup(userAssociated);
+
+            if(groupAssociated == null)
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+
             return new ResponseEntity<>(group, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
