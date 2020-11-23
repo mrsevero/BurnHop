@@ -18,7 +18,7 @@ public class GroupDto {
     }
 
     public GroupDto(Groups group) {
-        this.id = group.getId_groups();
+        this.id = group.getId();
         this.name = group.getName();
         this.admin = new UserDto(group.getAdmin());
     }

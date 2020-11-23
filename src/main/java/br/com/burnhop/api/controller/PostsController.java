@@ -1,6 +1,7 @@
 package br.com.burnhop.api.controller;
 
 import br.com.burnhop.model.Content;
+import br.com.burnhop.model.dto.GroupDto;
 import br.com.burnhop.model.dto.PostDto;
 import br.com.burnhop.model.dto.UpdatedPostDto;
 import br.com.burnhop.model.Posts;
@@ -60,6 +61,17 @@ public class PostsController {
         return posts;
     }
 
+    public ArrayList<PostDto> getAllPostsByGroup(GroupDto group) {
+        ArrayList<PostDto> posts = new ArrayList<>();
+
+        for (Posts post : posts_repository.findAll()) {
+            if(post.getGroup() != null && post.getGroup().getId() == group.getId())
+                posts.add(new PostDto(post));
+        }
+
+        return posts;
+    }
+
     public PostDto getPostById(int id) {
         Optional<Posts> post = posts_repository.findById((Integer) id);
 
@@ -67,7 +79,7 @@ public class PostsController {
     }
 
     public PostDto updatePost(int id, PostDto post, UpdatedPostDto content) {
-        Posts postToUpdate = posts_repository.findById((Integer) id).get();
+        Posts postToUpdate = posts_repository.findById(id).get();
 
         Content newContent = new Content();
 
