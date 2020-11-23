@@ -1,7 +1,6 @@
 package br.com.burnhop.model;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -16,6 +15,10 @@ public class Posts {
     @ManyToOne(targetEntity=Users.class, fetch= FetchType.EAGER)
     @JoinColumn(name="user_id")
     private Users users;
+
+    @ManyToOne(targetEntity=Groups.class, fetch= FetchType.EAGER)
+    @JoinColumn(name="group_id")
+    private Groups group;
 
     @OneToOne(targetEntity=Content.class, fetch= FetchType.EAGER)
     @JoinColumn(name="content_id")
@@ -51,5 +54,13 @@ public class Posts {
 
     public void setContent(Content content) {
         this.content = content;
+    }
+
+    public Groups getGroup() {
+        return group;
+    }
+
+    public void setGroup(Groups group) {
+        this.group = group;
     }
 }
