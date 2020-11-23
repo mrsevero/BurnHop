@@ -16,11 +16,11 @@ Com as dependências instaladas, é possível configurar o projeto.
 
 Antes de tudo, é necessário criar o banco de dados e as tabelas do **Burnhop** no Postgres. 
 
-##### 1. Criar novo banco de dados no postgres chamado burnhop.
+##### 1. Criar novo banco de dados no postgres chamado burnhop
 
     CREATE DATABASE burnhop;
 
-##### 2. Realizar a recuperação do arquivo dump para criar as tabelas conforme o arquivo database/burnhop.sql;
+##### 2. Realizar a recuperação do arquivo dump para criar as tabelas conforme o arquivo database/burnhop.sql
 
     psql burnhop < burnhop.sql
 
@@ -79,7 +79,6 @@ Existem 3 possíveis respostas para esta requisição.
     401 UNAUTHORIZED. Senha informada é incorreta para um usuário cadastrado.
     500 INTERNAL_SERVER_ERROR. Credenciais do usuário não encontradas no banco de dados.
 
-
 #### Get User
 
 Este recurso é responsável pelo retorno de um usuário, obtendo um email como parâmetro.
@@ -92,4 +91,3 @@ Existem 2 possíveis respostas para esta requisição.
 
     200 OK. Usuário retornado.
     404 NOT_FOUND. Email fornecido não localizado no banco de dados.
-	
