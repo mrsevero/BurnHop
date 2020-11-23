@@ -3,15 +3,12 @@ package br.com.burnhop.api.controller;
 import br.com.burnhop.model.UsersGroups;
 import br.com.burnhop.model.Groups;
 import br.com.burnhop.model.Users;
-import br.com.burnhop.model.dto.CreatedGroupDto;
-import br.com.burnhop.model.dto.GroupDto;
-import br.com.burnhop.model.dto.AssociatedUserGroupDto;
-import br.com.burnhop.model.dto.UserDto;
-import br.com.burnhop.model.dto.UsersGroupsDto;
+import br.com.burnhop.model.dto.*;
 import br.com.burnhop.repository.GroupsRepository;
 import br.com.burnhop.repository.UsersGroupsRepository;
 import br.com.burnhop.repository.UsersRepository;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -98,6 +95,25 @@ public class GroupsController {
         }
 
         return null;
+    }
+
+    public GroupDto updateGroup(int id, GroupDto group, UpdatedGroupDto newGroup) {
+        Optional<Groups> possibleGroup = groupsRepository.findByName(newGroup.getName());
+
+        if(possibleGroup.isPresent())
+            return null;
+
+        String name = newGroup.getName().isEmpty() ?
+                group.getName() :
+                newGroup.getName();
+
+        Groups groupToUpdate = groupsRepository.findById(id).get();
+
+        groupToUpdate.setName(name);
+
+        Groups updatedGroup = groupsRepository.save(groupToUpdate);
+
+        return new GroupDto(updatedGroup);
     }
 
     public boolean deleteGroup(int id) {

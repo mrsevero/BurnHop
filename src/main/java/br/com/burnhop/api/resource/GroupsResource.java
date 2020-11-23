@@ -1,10 +1,6 @@
 package br.com.burnhop.api.resource;
 
-import br.com.burnhop.model.dto.CreatedGroupDto;
-import br.com.burnhop.model.dto.GroupDto;
-import br.com.burnhop.model.dto.AssociatedUserGroupDto;
-import br.com.burnhop.model.dto.UserDto;
-import br.com.burnhop.model.dto.UsersGroupsDto;
+import br.com.burnhop.model.dto.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -180,6 +176,35 @@ public class GroupsResource {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(group, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    @ApiOperation(value = "Retorna Grupo atualizado")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Grupo atualizado"),
+            @ApiResponse(code = 404, message = "Nenhum grupo foi encontrado"),
+            @ApiResponse(code = 409, message = "Grupo com este nome já existe"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<GroupDto> updateGroup(
+            @RequestBody UpdatedGroupDto groupToUpdate,
+            @PathVariable(value = "id") int id) {
+
+        try {
+            GroupDto group = groupsController.getGroupById(id);
+
+            if(group == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            GroupDto updatedGroup = groupsController.updateGroup(id, group, groupToUpdate);
+
+            if(updatedGroup == null)
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+            return new ResponseEntity<>(updatedGroup, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
