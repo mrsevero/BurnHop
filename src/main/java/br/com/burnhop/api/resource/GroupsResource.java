@@ -159,6 +159,28 @@ public class GroupsResource {
         }
     }
 
+    @GetMapping("/name/{name}")
+    @ApiOperation(value = "Retorna grupo baseado no nome")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Grupo com nome"),
+            @ApiResponse(code = 404, message = "Grupo com nome não encontrado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<GroupDto> getGroupByName(
+            @PathVariable(value = "name") String name) {
+
+        try {
+            GroupDto group = groupsController.getGroupByName(name);
+
+            if (group == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(group, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @DeleteMapping()
     @ApiOperation(value = "Deleta grupo informado")
     @ApiResponses({
