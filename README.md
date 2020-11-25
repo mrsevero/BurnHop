@@ -1,5 +1,6 @@
 # Burnhop Back-end
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/319616e76be94bf6a30e768ff084dbfd)](https://app.codacy.com/gh/wandsu/burnhop-server?utm_source=github.com&utm_medium=referral&utm_content=wandsu/burnhop-server&utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.com/wandsu/burnhop-server.svg?branch=dev)](https://travis-ci.com/wandsu/burnhop-server)
 
 ## Configuração
