@@ -1,12 +1,19 @@
 package br.com.burnhop.api.resource;
 
+import br.com.burnhop.api.controller.GroupsController;
 import br.com.burnhop.api.controller.PostsController;
-import br.com.burnhop.model.dto.CreatedPostDto;
+import br.com.burnhop.api.controller.UserController;
 import br.com.burnhop.model.dto.PostDto;
+import br.com.burnhop.model.dto.GroupDto;
+import br.com.burnhop.model.dto.CreatedPostDto;
+import br.com.burnhop.model.dto.UserDto;
 import br.com.burnhop.model.dto.UpdatedPostDto;
-import br.com.burnhop.repository.ContentRepository;
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.PostsRepository;
+import br.com.burnhop.repository.LoginRepository;
+import br.com.burnhop.repository.ContentRepository;
+import br.com.burnhop.repository.GroupsRepository;
+import br.com.burnhop.repository.UsersGroupsRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -22,11 +29,20 @@ import java.util.ArrayList;
 @RequestMapping("/posts")
 public class PostsResource {
 
-    PostsController postController;
-    UsersRepository usersRepository;
+    private final PostsController postController;
+    private final UserController userController;
+    private final GroupsController groupController;
+    private final UsersRepository usersRepository;
 
-    public PostsResource(PostsRepository post_repository, UsersRepository users_repository, ContentRepository content_repository){
-        postController = new PostsController(post_repository, users_repository, content_repository);
+    public PostsResource(PostsRepository post_repository,
+                         UsersRepository users_repository,
+                         LoginRepository login_repository,
+                         ContentRepository content_repository,
+                         GroupsRepository groups_repository,
+                         UsersGroupsRepository usersGroups_repository){
+        this.postController = new PostsController(post_repository, users_repository, content_repository);
+        this.userController = new UserController(login_repository, users_repository, post_repository);
+        this.groupController = new GroupsController(groups_repository, users_repository, usersGroups_repository);
         this.usersRepository = users_repository;
     }
 
@@ -46,6 +62,64 @@ public class PostsResource {
             return new ResponseEntity(post, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/user/{id}")
+    @ApiOperation(value = "Todos os Posts de um Usuário", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Posts retornados com sucesso"),
+            @ApiResponse(code = 204, message = "Não existe nenhum post salvo"),
+            @ApiResponse(code = 404, message = "Não existe nenhum usuário registrado com id informado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<ArrayList<PostDto>> getPostsByUsers(
+            @PathVariable(value = "id") int id){
+
+        try {
+            UserDto user = userController.getUserById(id);
+
+            if(user == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            ArrayList<PostDto> posts = postController.getAllPostsByUser(user);
+
+            if(posts.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+
+        } catch (IllegalAccessError e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/group/{id}")
+    @ApiOperation(value = "Todos os Posts de um Grupo", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Posts retornados com sucesso"),
+            @ApiResponse(code = 204, message = "Não existe nenhum post salvo"),
+            @ApiResponse(code = 404, message = "Não existe nenhum grupo registrado com id informado"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<ArrayList<PostDto>> getPostsByGroup(
+            @PathVariable(value = "id") int id){
+
+        try {
+            GroupDto group = groupController.getGroupById(id);
+
+            if(group == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            ArrayList<PostDto> posts = postController.getAllPostsByGroup(group);
+
+            if(posts.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+
+        } catch (IllegalAccessError e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

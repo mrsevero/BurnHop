@@ -27,11 +27,11 @@ public class Groups {
         this.created_group_on = created_group_on;
     }
 
-    public int getId_groups() {
+    public int getId() {
         return id_groups;
     }
 
-    public void setId_groups(int id_groups) {
+    public void setId(int id_groups) {
         this.id_groups = id_groups;
     }
 
