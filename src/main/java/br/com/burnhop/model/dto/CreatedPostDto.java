@@ -30,11 +30,11 @@ public class CreatedPostDto {
         return post;
     }
 
-    public void setUser_email(String user_email) {
+    public void setUserEmail(String user_email) {
         this.user_email = user_email;
     }
 
-    public String getUser_email(){
+    public String getUserEmail(){
         return this.user_email;
     }
 

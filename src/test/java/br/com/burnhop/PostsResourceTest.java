@@ -57,7 +57,7 @@ class PostsResourceTest {
 		CreatedPostDto createdPostDto = new CreatedPostDto();
         String texto = "texto de postagem";
         
-		createdPostDto.setUser_email(email);
+		createdPostDto.setUserEmail(email);
 		createdPostDto.setTexto(texto);
 
 		return createdPostDto;
