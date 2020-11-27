@@ -95,19 +95,19 @@ public class UserController {
         if(possibleUser != null)
             return null;
 
-        Date date = newUser.getData_nasc().isEmpty() ?
+        Date date = newUser.getDataNasc().isEmpty() ?
                 user.getDataNasc() :
-                Date.valueOf(newUser.getData_nasc());
+                Date.valueOf(newUser.getDataNasc());
 
         String name = newUser.getName().isEmpty() ?
                 user.getName() :
                 newUser.getName();
 
-        String username = newUser.getData_nasc().isEmpty() ?
+        String username = newUser.getDataNasc().isEmpty() ?
                 user.getUsername() :
                 newUser.getUsername();
 
-        String email = newUser.getData_nasc().isEmpty() ?
+        String email = newUser.getDataNasc().isEmpty() ?
                 user.getLogin().getEmail() :
                 newUser.getEmail();
 
