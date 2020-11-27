@@ -33,9 +33,9 @@ public class UserDto {
         this.id = user.getId();
         this.name = user.getName();
         this.username = user.getUsername();
-        this.data_nasc = user.getData_nasc();
+        this.data_nasc = user.getDataNasc();
         this.login = new LoginDto(user.getLogin());
-        this.image_path = user.getImage_path();
+        this.image_path = user.getImagePath();
     }
 
     public String getName() {

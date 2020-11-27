@@ -27,8 +27,8 @@ public class CreatedUserDto {
         Users user = new Users();
         user.setName(this.name);
         user.setUsername(this.username);
-        user.setData_nasc(Date.valueOf(this.data_nasc));
-        user.setCreated_on(new Timestamp(System.currentTimeMillis()));
+        user.setDataNasc(Date.valueOf(this.data_nasc));
+        user.setCreatedOn(new Timestamp(System.currentTimeMillis()));
         user.setLogin(this.login.toLogin());
 
         return user;

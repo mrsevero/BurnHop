@@ -32,7 +32,7 @@ public class UserController {
         Login login = getLoginByEmail(newUser.getLogin().getEmail());
         if(login == null){
             newUser.getLogin().setPassword(hashPassword(newUser.getLogin().getPassword()));
-            newUser.setImage_path("https://burnhopimg.s3.amazonaws.com/users-img/avatar.png");
+            newUser.setImagePath("https://burnhopimg.s3.amazonaws.com/users-img/avatar.png");
             login_repository.save(newUser.getLogin());
             user_repository.save(newUser);
 
@@ -113,7 +113,7 @@ public class UserController {
 
         Users userToUpdate = user_repository.findById((Integer) id).get();
 
-        userToUpdate.setData_nasc(date);
+        userToUpdate.setDataNasc(date);
         userToUpdate.setName(name);
         userToUpdate.setUsername(username);
         userToUpdate.getLogin().setEmail(email);
@@ -128,7 +128,7 @@ public class UserController {
 
         if(userToUpdate.isPresent()) {
 
-            userToUpdate.get().setImage_path(image);
+            userToUpdate.get().setImagePath(image);
             Users updatedUser = user_repository.save(userToUpdate.get());
 
             return new UserDto(updatedUser);

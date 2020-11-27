@@ -29,7 +29,7 @@ public class PostDto {
     public PostDto(Posts post) {
         this.id = post.getId();
         this.username = post.getUsers().getUsername();
-        this.image_path = post.getUsers().getImage_path();
+        this.image_path = post.getUsers().getImagePath();
         this.texto = post.getContent().getText();
         this.dataPost = post.getPosted_on();
     }
