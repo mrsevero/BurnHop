@@ -96,7 +96,7 @@ public class UserController {
             return null;
 
         Date date = newUser.getData_nasc().isEmpty() ?
-                user.getData_nasc() :
+                user.getDataNasc() :
                 Date.valueOf(newUser.getData_nasc());
 
         String name = newUser.getName().isEmpty() ?

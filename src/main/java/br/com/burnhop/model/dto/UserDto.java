@@ -54,11 +54,11 @@ public class UserDto {
         this.username = username;
     }
 
-    public Date getData_nasc() {
+    public Date getDataNasc() {
         return data_nasc;
     }
 
-    public void setData_nasc(Date data_nasc) {
+    public void setDataNasc(Date data_nasc) {
         this.data_nasc = data_nasc;
     }
 
@@ -78,11 +78,11 @@ public class UserDto {
         this.id = id;
     }
 
-    public String getImage_path() {
+    public String getImagePath() {
         return image_path;
     }
 
-    public void setImage_path(String image_path) {
+    public void setImagePath(String image_path) {
         this.image_path = image_path;
     }
 }
