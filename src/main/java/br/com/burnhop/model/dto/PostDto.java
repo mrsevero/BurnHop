@@ -31,7 +31,7 @@ public class PostDto {
         this.username = post.getUsers().getUsername();
         this.image_path = post.getUsers().getImagePath();
         this.texto = post.getContent().getText();
-        this.dataPost = post.getPosted_on();
+        this.dataPost = post.getPostedOn();
     }
 
     public String getTexto() {
