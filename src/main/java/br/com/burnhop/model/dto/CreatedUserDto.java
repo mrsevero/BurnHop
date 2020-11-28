@@ -50,11 +50,11 @@ public class CreatedUserDto {
         this.username = username;
     }
 
-    public String getData_nasc() {
+    public String getDataNasc() {
         return data_nasc;
     }
 
-    public void setData_nasc(String data_nasc) {
+    public void setDataNasc(String data_nasc) {
         this.data_nasc = data_nasc;
     }
 

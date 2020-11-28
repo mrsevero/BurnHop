@@ -59,7 +59,7 @@ class UsersResourceTest {
 		createdUserDto.setLogin(createdLoginDto);
 		createdUserDto.setName(name);
 		createdUserDto.setUsername(username);
-		createdUserDto.setData_nasc(data_nasc);
+		createdUserDto.setDataNasc(data_nasc);
 
 		return createdUserDto;
 	}
