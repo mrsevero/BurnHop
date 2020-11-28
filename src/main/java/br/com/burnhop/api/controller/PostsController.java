@@ -16,9 +16,9 @@ import java.util.Optional;
 
 public class PostsController {
 
-    PostsRepository posts_repository;
-    ContentRepository content_repository;
-    UsersRepository users_repository;
+    private PostsRepository posts_repository;
+    private ContentRepository content_repository;
+    private UsersRepository users_repository;
 
     public PostsController(PostsRepository postsRepository, UsersRepository usersRepository, ContentRepository contentRepository) {
         this.posts_repository = postsRepository;

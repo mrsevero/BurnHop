@@ -1,6 +1,12 @@
 package br.com.burnhop.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import java.sql.Timestamp;
 
 @Entity
@@ -43,11 +49,11 @@ public class Groups {
         this.name = name;
     }
 
-    public Timestamp getCreated_group_on() {
+    public Timestamp getCreatedGroupOn() {
         return created_group_on;
     }
 
-    public void setCreated_group_on(Timestamp created_group_on) {
+    public void setCreatedGroupOn(Timestamp created_group_on) {
         this.created_group_on = created_group_on;
     }
 
@@ -61,6 +67,6 @@ public class Groups {
 
     @Override
     public String toString(){
-        return "Nome: "+this.name+"\nCriador: "+this.getAdmin().getLogin().getEmail()+"\nCriado em: "+this.getCreated_group_on();
+        return "Nome: "+this.name+"\nCriador: "+this.getAdmin().getLogin().getEmail()+"\nCriado em: "+this.getCreatedGroupOn();
     }
 }

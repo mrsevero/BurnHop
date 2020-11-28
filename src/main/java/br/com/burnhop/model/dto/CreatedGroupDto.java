@@ -19,7 +19,7 @@ public class CreatedGroupDto {
     public Groups toGroup() {
         Groups group = new Groups();
         group.setName(this.name);
-        group.setCreated_group_on(new Timestamp(System.currentTimeMillis()));
+        group.setCreatedGroupOn(new Timestamp(System.currentTimeMillis()));
         return group;
     }
 
