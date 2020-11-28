@@ -18,9 +18,9 @@ import java.util.Optional;
 
 public class UserController {
 
-    LoginRepository login_repository;
-    UsersRepository user_repository;
-    PostsRepository posts_repository;
+    private LoginRepository login_repository;
+    private UsersRepository user_repository;
+    private PostsRepository posts_repository;
 
     public UserController(LoginRepository loginRepository, UsersRepository usersRepository, PostsRepository postsRepository) {
         this.login_repository = loginRepository;
