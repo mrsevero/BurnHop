@@ -106,4 +106,26 @@ class PostsResourceTest {
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 	}
+
+	@Test
+	void testGetPostsByUsers() throws Exception{
+		saveUser("getpostbyusers");
+		Users users = usersRepository.findByEmail("getpostbyusers@email.com");
+		int id = users.getId();;
+
+		Content content = new Content();
+		content.setText("Getting posts by user");
+
+		Posts post = new Posts();
+		post.setContent(content);
+		post.setPostedOn(new Timestamp(System.currentTimeMillis()));
+		post.setUsers(users);
+
+		contentRepository.save(content);
+		postsRepository.save(post);
+		
+		mockMvc.perform(get("/posts/user/{id}", id))
+                .andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+	}
 }
