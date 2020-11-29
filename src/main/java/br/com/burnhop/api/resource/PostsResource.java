@@ -32,7 +32,6 @@ public class PostsResource {
     private final PostsController postController;
     private final UserController userController;
     private final GroupsController groupController;
-    private final UsersRepository usersRepository;
 
     public PostsResource(PostsRepository post_repository,
                          UsersRepository users_repository,
@@ -40,25 +39,44 @@ public class PostsResource {
                          ContentRepository content_repository,
                          GroupsRepository groups_repository,
                          UsersGroupsRepository usersGroups_repository){
-        this.postController = new PostsController(post_repository, users_repository, content_repository);
+        this.postController = new PostsController(post_repository, users_repository, content_repository, groups_repository);
         this.userController = new UserController(login_repository, users_repository, post_repository);
         this.groupController = new GroupsController(groups_repository, users_repository, usersGroups_repository);
-        this.usersRepository = users_repository;
     }
 
     @PostMapping()
     @ApiOperation(value = "Criar um novo post", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Post criado com sucesso"),
+            @ApiResponse(code = 404, message = "Usuário com e-mail ou Id do Grupo não encontrado"),
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
     public ResponseEntity<PostDto> createPost(@RequestBody CreatedPostDto newPost) {
 
         try {
-            PostDto post = postController.createPost(newPost.toPost(usersRepository));
-            if (post == null) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            UserDto user = userController.getUserByEmail(newPost.getUserEmail());
+
+            if(user == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+
+            GroupDto group = null;
+
+            if(newPost.getGroupId() != -1) {
+
+                group = groupController.getGroupById(newPost.getGroupId());
+
+                if (group == null) {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            }
+
+            PostDto post = postController.createPost(newPost.toPost(), user, group);
+
+            if (post == null) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
             return new ResponseEntity(post, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
