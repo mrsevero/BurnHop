@@ -10,8 +10,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.burnhop.model.dto.CreatedGroupDto;
+import br.com.burnhop.model.dto.AssociatedUserGroupDto;
+import br.com.burnhop.model.dto.GroupDto;
 import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Users;
+import br.com.burnhop.model.Groups;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.GroupsRepository;
@@ -87,7 +90,7 @@ class GroupResourceTest {
                 .content(objectMapper.writeValueAsString(createdGroupDto)))
                 .andExpect(status().isConflict());
     }
-	/*
+	
 	@Test
 	void testAssociateUser() throws Exception{
 		saveUser("adminassociateuser");
@@ -99,8 +102,9 @@ class GroupResourceTest {
 		Groups group = new Groups("AssociateUser", new Timestamp(System.currentTimeMillis()));
 		group.setAdmin(admin);
 		groupsRepository.save(group);
-		group = groupsRepository.findByName("AssociateUser");
-		int id_group = group.getId();
+        Optional<Groups> groups = groupsRepository.findByName("AssociateUser");
+        GroupDto group_dto = groups.map(GroupDto::new).orElse(null);
+		int id_group = group_dto.getId();
 
 		AssociatedUserGroupDto associatedUserGroupDto = new AssociatedUserGroupDto();
 		associatedUserGroupDto.setGroupId(id_group);
@@ -110,8 +114,9 @@ class GroupResourceTest {
 				.contentType("application/json")
 				.content(objectMapper.writeValueAsString(associatedUserGroupDto)))
 				.andExpect(status().isOk());
-	}
-
+    }
+    
+    /*
     @Test
     void testGetAllGroupsByUser() throws Exception{
 
