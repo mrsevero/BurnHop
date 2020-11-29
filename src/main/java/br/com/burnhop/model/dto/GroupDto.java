@@ -14,9 +14,6 @@ public class GroupDto {
     @ApiModelProperty(value = "Uma String que representa a descrição do grupo", example = "Descrição Teste")
     private String description;
 
-    @ApiModelProperty(value = "Uma String que representa o gênero do grupo", example = "Teste")
-    private String genre;
-
     private UserDto admin;
 
     public GroupDto(){
@@ -27,7 +24,6 @@ public class GroupDto {
         this.id = group.getId();
         this.name = group.getName();
         this.description = group.getDescription();
-        this.genre = group.getGenre();
         this.admin = new UserDto(group.getAdmin());
     }
 
@@ -63,11 +59,4 @@ public class GroupDto {
         this.description = description;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
 }

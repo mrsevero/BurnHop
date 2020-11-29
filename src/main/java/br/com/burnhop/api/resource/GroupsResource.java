@@ -18,15 +18,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @CrossOrigin("*")
@@ -52,7 +44,7 @@ public class GroupsResource {
             @ApiResponse(code = 409, message = "Grupo com esse nome já está cadastrado"),
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
-    public ResponseEntity<GroupDto> createGroup(@RequestBody CreatedGroupDto newGroup) throws NoSuchAlgorithmException {
+    public ResponseEntity<GroupDto> createGroup(@RequestBody CreatedGroupDto newGroup) {
 
         try {
             GroupDto group = groupsController.createGroup(newGroup);
@@ -233,7 +225,7 @@ public class GroupsResource {
         }
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "Deleta grupo informado")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Grupo deletado com sucesso"),
@@ -241,7 +233,7 @@ public class GroupsResource {
             @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
     })
     public ResponseEntity<String> deleteGroup(
-            @RequestParam int id) {
+            @PathVariable(value = "id") int id) {
 
         try {
             GroupDto group = groupsController.getGroupById(id);

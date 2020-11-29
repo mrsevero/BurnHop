@@ -20,8 +20,6 @@ public class Groups {
 
     private String description;
 
-    private String genre;
-
     private Timestamp created_group_on;
 
     @ManyToOne(targetEntity=Users.class, fetch= FetchType.EAGER)
@@ -32,10 +30,9 @@ public class Groups {
 
     }
 
-    public Groups(String name, String description, String genre, Timestamp created_group_on){
+    public Groups(String name, String description, Timestamp created_group_on){
         this.name = name;
         this.description = description;
-        this.genre = genre;
         this.created_group_on = created_group_on;
     }
 
@@ -84,11 +81,4 @@ public class Groups {
         this.description = description;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
 }

@@ -13,9 +13,6 @@ public class CreatedGroupDto {
     @ApiModelProperty(value = "Uma String que representa a descrição do grupo", example = "Descrição Teste")
     private String description;
 
-    @ApiModelProperty(value = "Uma String que representa o gênero do grupo", example = "Teste")
-    private String genre;
-
     private int admin_id;
 
     public CreatedGroupDto(){
@@ -26,7 +23,6 @@ public class CreatedGroupDto {
         Groups group = new Groups();
         group.setName(this.name);
         group.setDescription(this.description);
-        group.setGenre(this.genre);
         group.setCreatedGroupOn(new Timestamp(System.currentTimeMillis()));
         return group;
     }
@@ -51,15 +47,7 @@ public class CreatedGroupDto {
         return this.description;
     }
 
-    public String getGenre(){
-        return this.genre;
-    }
-
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
     }
 }

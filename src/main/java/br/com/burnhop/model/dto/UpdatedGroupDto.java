@@ -10,9 +10,6 @@ public class UpdatedGroupDto {
     @ApiModelProperty(value = "Uma String que representa a descrição do grupo", example = "Descrição Teste")
     private String description;
 
-    @ApiModelProperty(value = "Uma String que representa o gênero do grupo", example = "Teste")
-    private String genre;
-
     public UpdatedGroupDto() {
 
     }
@@ -33,11 +30,4 @@ public class UpdatedGroupDto {
         this.description = description;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
 }

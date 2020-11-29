@@ -32,7 +32,6 @@ public class GroupsController {
             if (gpname == null) {
                 Groups group = new Groups(newGroup.getName(),
                         newGroup.getDescription(),
-                        newGroup.getGenre(),
                         new Timestamp(System.currentTimeMillis()));
                 group.setAdmin(user.get());
                 groupsRepository.save(group);
@@ -114,15 +113,10 @@ public class GroupsController {
                 group.getDescription() :
                 newGroup.getDescription();
 
-        String genre = newGroup.getGenre().isEmpty() ?
-                group.getGenre() :
-                newGroup.getGenre();
-
         Groups groupToUpdate = groupsRepository.findById(id).get();
 
         groupToUpdate.setName(name);
         groupToUpdate.setDescription(description);
-        groupToUpdate.setGenre(genre);
 
         Groups updatedGroup = groupsRepository.save(groupToUpdate);
 
@@ -135,11 +129,19 @@ public class GroupsController {
         if(group.isPresent()) {
             Groups groupToDelete = group.get();
 
+            deleteAllUsersInGroup(id);
             groupsRepository.deleteById(groupToDelete.getId());
             return true;
         }
 
         return false;
 
+    }
+
+    public void deleteAllUsersInGroup(int groupId) {
+        for (UsersGroups group : usersGroupsRepository.findAll()) {
+            if(group.getGroup().getId() == groupId)
+                usersGroupsRepository.deleteById(group.getIdUsersGroups());
+        }
     }
 }
