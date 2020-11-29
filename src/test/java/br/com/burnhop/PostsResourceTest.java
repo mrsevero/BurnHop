@@ -59,6 +59,7 @@ class PostsResourceTest {
         
 		createdPostDto.setUserEmail(email);
 		createdPostDto.setTexto(texto);
+		createdPostDto.setGroupId(-1);
 
 		return createdPostDto;
 	}
