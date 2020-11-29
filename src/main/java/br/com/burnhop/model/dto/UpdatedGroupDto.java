@@ -10,10 +10,6 @@ public class UpdatedGroupDto {
     @ApiModelProperty(value = "Uma String que representa a descrição do grupo", example = "Descrição Teste")
     private String description;
 
-    public UpdatedGroupDto() {
-
-    }
-
     public String getName() {
         return name;
     }
