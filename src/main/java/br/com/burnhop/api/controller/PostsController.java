@@ -12,7 +12,6 @@ import br.com.burnhop.repository.ContentRepository;
 import br.com.burnhop.repository.GroupsRepository;
 import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
-import org.apache.catalina.User;
 
 import java.util.ArrayList;
 import java.util.Optional;

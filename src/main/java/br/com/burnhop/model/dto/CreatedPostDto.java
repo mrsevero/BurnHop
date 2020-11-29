@@ -2,10 +2,7 @@ package br.com.burnhop.model.dto;
 
 import br.com.burnhop.model.Content;
 import br.com.burnhop.model.Posts;
-import br.com.burnhop.model.Users;
-import br.com.burnhop.repository.UsersRepository;
 import io.swagger.annotations.ApiModelProperty;
-import org.apache.catalina.User;
 
 import java.sql.Timestamp;
 
