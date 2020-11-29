@@ -7,22 +7,34 @@ import java.util.ArrayList;
 
 import br.com.burnhop.api.controller.GroupsController;
 import br.com.burnhop.api.controller.UserController;
-import br.com.burnhop.repository.*;
+import br.com.burnhop.repository.GroupsRepository;
+import br.com.burnhop.repository.UsersRepository;
+import br.com.burnhop.repository.UsersGroupsRepository;
+import br.com.burnhop.repository.LoginRepository;
+import br.com.burnhop.repository.PostsRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController()
 @CrossOrigin("*")
 @RequestMapping("/groups")
 public class GroupsResource {
 
-    GroupsController groupsController;
-    UserController userController;
+    private GroupsController groupsController;
+    private UserController userController;
 
     public GroupsResource(GroupsRepository groupsRepository,
                           UsersRepository usersRepository,

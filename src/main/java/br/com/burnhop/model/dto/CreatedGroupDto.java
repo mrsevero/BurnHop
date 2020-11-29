@@ -27,7 +27,7 @@ public class CreatedGroupDto {
         group.setName(this.name);
         group.setDescription(this.description);
         group.setGenre(this.genre);
-        group.setCreated_group_on(new Timestamp(System.currentTimeMillis()));
+        group.setCreatedGroupOn(new Timestamp(System.currentTimeMillis()));
         return group;
     }
 

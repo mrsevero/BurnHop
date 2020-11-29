@@ -15,15 +15,11 @@ import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.UsersRepository;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -61,7 +57,7 @@ class PostsResourceTest {
 		CreatedPostDto createdPostDto = new CreatedPostDto();
         String texto = "texto de postagem";
         
-		createdPostDto.setUser_email(email);
+		createdPostDto.setUserEmail(email);
 		createdPostDto.setTexto(texto);
 
 		return createdPostDto;
