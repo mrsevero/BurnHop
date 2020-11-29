@@ -10,6 +10,9 @@ public class CreatedGroupDto {
     @ApiModelProperty(value = "Uma String que representa o nome do grupo", example = "Grupo Exemplo Teste")
     private String name;
 
+    @ApiModelProperty(value = "Uma String que representa a descrição do grupo", example = "Descrição Teste")
+    private String description;
+
     private int admin_id;
 
     public CreatedGroupDto(){
@@ -19,7 +22,8 @@ public class CreatedGroupDto {
     public Groups toGroup() {
         Groups group = new Groups();
         group.setName(this.name);
-        group.setCreated_group_on(new Timestamp(System.currentTimeMillis()));
+        group.setDescription(this.description);
+        group.setCreatedGroupOn(new Timestamp(System.currentTimeMillis()));
         return group;
     }
 
@@ -37,5 +41,13 @@ public class CreatedGroupDto {
 
     public void setAdmin(int admin_id) {
         this.admin_id = admin_id;
+    }
+
+    public String getDescription(){
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

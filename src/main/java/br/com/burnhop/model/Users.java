@@ -1,8 +1,13 @@
 package br.com.burnhop.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.OneToOne;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
@@ -61,19 +66,19 @@ public class Users {
         this.username = username;
     }
 
-    public Date getData_nasc() {
+    public Date getDataNasc() {
         return data_nasc;
     }
 
-    public void setData_nasc(Date data_nasc) {
+    public void setDataNasc(Date data_nasc) {
         this.data_nasc = data_nasc;
     }
 
-    public Timestamp getCreated_on() {
+    public Timestamp getCreatedOn() {
         return created_on;
     }
 
-    public void setCreated_on(Timestamp created_on) {
+    public void setCreatedOn(Timestamp created_on) {
         this.created_on = created_on;
     }
 
@@ -85,16 +90,16 @@ public class Users {
         this.login = login;
     }
 
-    public String getImage_path() {
+    public String getImagePath() {
         return image_path;
     }
 
-    public void setImage_path(String image_path) {
+    public void setImagePath(String image_path) {
         this.image_path = image_path;
     }
 
     @Override
     public String toString(){
-        return "Nome: "+this.getName()+"\nEmail: "+this.getLogin().getEmail()+"\nData de criação: "+this.getCreated_on();
+        return "Nome: "+this.getName()+"\nEmail: "+this.getLogin().getEmail()+"\nData de criação: "+this.getCreatedOn();
     }
 }
