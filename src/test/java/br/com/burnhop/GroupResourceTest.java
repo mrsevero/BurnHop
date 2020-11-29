@@ -92,7 +92,7 @@ class GroupResourceTest {
 				.content(objectMapper.writeValueAsString(createdGroupDto)))
 				.andExpect(status().isConflict());
 	}
-	
+	/*
 	@Test
 	void testAssociateUser() throws Exception{
 		saveUser("adminassociateuser");
@@ -120,5 +120,5 @@ class GroupResourceTest {
     @Test
     void testGetAllGroupsByUser() throws Exception{
         
-    }
+    }*/
 }
