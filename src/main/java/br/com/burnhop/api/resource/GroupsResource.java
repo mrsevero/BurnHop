@@ -1,7 +1,5 @@
 package br.com.burnhop.api.resource;
 
-import br.com.burnhop.model.dto.*;
-
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
@@ -12,13 +10,28 @@ import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.UsersGroupsRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.PostsRepository;
+import br.com.burnhop.model.dto.GroupDto;
+import br.com.burnhop.model.dto.CreatedGroupDto;
+import br.com.burnhop.model.dto.AssociatedUserGroupDto;
+import br.com.burnhop.model.dto.UsersGroupsDto;
+import br.com.burnhop.model.dto.UserDto;
+import br.com.burnhop.model.dto.UpdatedGroupDto;
+
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController()
 @CrossOrigin("*")
