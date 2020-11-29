@@ -1,13 +1,6 @@
 package br.com.burnhop.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -39,11 +32,11 @@ public class Posts {
         this.id_post = id_post;
     }
 
-    public Timestamp getPostedOn() {
+    public Timestamp getPosted_on() {
         return posted_on;
     }
 
-    public void setPostedOn(Timestamp posted_on) {
+    public void setPosted_on(Timestamp posted_on) {
         this.posted_on = posted_on;
     }
 

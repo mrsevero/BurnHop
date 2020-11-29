@@ -35,11 +35,11 @@ public class UpdatedUserDto {
         this.username = username;
     }
 
-    public String getDataNasc() {
+    public String getData_nasc() {
         return data_nasc;
     }
 
-    public void setDataNasc(String data_nasc) {
+    public void setData_nasc(String data_nasc) {
         this.data_nasc = data_nasc;
     }
 

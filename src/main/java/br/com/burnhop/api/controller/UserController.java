@@ -18,9 +18,9 @@ import java.util.Optional;
 
 public class UserController {
 
-    private LoginRepository login_repository;
-    private UsersRepository user_repository;
-    private PostsRepository posts_repository;
+    LoginRepository login_repository;
+    UsersRepository user_repository;
+    PostsRepository posts_repository;
 
     public UserController(LoginRepository loginRepository, UsersRepository usersRepository, PostsRepository postsRepository) {
         this.login_repository = loginRepository;
@@ -32,7 +32,7 @@ public class UserController {
         Login login = getLoginByEmail(newUser.getLogin().getEmail());
         if(login == null){
             newUser.getLogin().setPassword(hashPassword(newUser.getLogin().getPassword()));
-            newUser.setImagePath("https://burnhopimg.s3.amazonaws.com/users-img/avatar.png");
+            newUser.setImage_path("https://burnhopimg.s3.amazonaws.com/users-img/avatar.png");
             login_repository.save(newUser.getLogin());
             user_repository.save(newUser);
 
@@ -95,25 +95,25 @@ public class UserController {
         if(possibleUser != null)
             return null;
 
-        Date date = newUser.getDataNasc().isEmpty() ?
-                user.getDataNasc() :
-                Date.valueOf(newUser.getDataNasc());
+        Date date = newUser.getData_nasc().isEmpty() ?
+                user.getData_nasc() :
+                Date.valueOf(newUser.getData_nasc());
 
         String name = newUser.getName().isEmpty() ?
                 user.getName() :
                 newUser.getName();
 
-        String username = newUser.getDataNasc().isEmpty() ?
+        String username = newUser.getData_nasc().isEmpty() ?
                 user.getUsername() :
                 newUser.getUsername();
 
-        String email = newUser.getDataNasc().isEmpty() ?
+        String email = newUser.getData_nasc().isEmpty() ?
                 user.getLogin().getEmail() :
                 newUser.getEmail();
 
         Users userToUpdate = user_repository.findById((Integer) id).get();
 
-        userToUpdate.setDataNasc(date);
+        userToUpdate.setData_nasc(date);
         userToUpdate.setName(name);
         userToUpdate.setUsername(username);
         userToUpdate.getLogin().setEmail(email);
@@ -128,7 +128,7 @@ public class UserController {
 
         if(userToUpdate.isPresent()) {
 
-            userToUpdate.get().setImagePath(image);
+            userToUpdate.get().setImage_path(image);
             Users updatedUser = user_repository.save(userToUpdate.get());
 
             return new UserDto(updatedUser);

@@ -24,17 +24,17 @@ public class CreatedPostDto {
         Content content = new Content();
         content.setText(texto);
         post.setUsers(usersRepository.findByEmail(this.user_email));
-        post.setPostedOn(new Timestamp(System.currentTimeMillis()));
+        post.setPosted_on(new Timestamp(System.currentTimeMillis()));
         post.setContent(content);
 
         return post;
     }
 
-    public void setUserEmail(String user_email) {
+    public void setUser_email(String user_email) {
         this.user_email = user_email;
     }
 
-    public String getUserEmail(){
+    public String getUser_email(){
         return this.user_email;
     }
 

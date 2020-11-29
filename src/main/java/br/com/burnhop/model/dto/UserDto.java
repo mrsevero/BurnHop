@@ -33,9 +33,9 @@ public class UserDto {
         this.id = user.getId();
         this.name = user.getName();
         this.username = user.getUsername();
-        this.data_nasc = user.getDataNasc();
+        this.data_nasc = user.getData_nasc();
         this.login = new LoginDto(user.getLogin());
-        this.image_path = user.getImagePath();
+        this.image_path = user.getImage_path();
     }
 
     public String getName() {
@@ -54,11 +54,11 @@ public class UserDto {
         this.username = username;
     }
 
-    public Date getDataNasc() {
+    public Date getData_nasc() {
         return data_nasc;
     }
 
-    public void setDataNasc(Date data_nasc) {
+    public void setData_nasc(Date data_nasc) {
         this.data_nasc = data_nasc;
     }
 
@@ -78,11 +78,11 @@ public class UserDto {
         this.id = id;
     }
 
-    public String getImagePath() {
+    public String getImage_path() {
         return image_path;
     }
 
-    public void setImagePath(String image_path) {
+    public void setImage_path(String image_path) {
         this.image_path = image_path;
     }
 }

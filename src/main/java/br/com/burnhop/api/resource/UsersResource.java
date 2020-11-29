@@ -11,30 +11,18 @@ import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersRepository;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.api.controller.UserController;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @CrossOrigin("*")
 @RequestMapping("/users")
 public class UsersResource {
 
-    private UserController userController;
+    UserController userController;
 
     public UsersResource(LoginRepository login_repository, UsersRepository user_repository, PostsRepository posts_repository){
         userController = new UserController(login_repository, user_repository, posts_repository);

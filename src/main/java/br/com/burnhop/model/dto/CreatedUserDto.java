@@ -27,8 +27,8 @@ public class CreatedUserDto {
         Users user = new Users();
         user.setName(this.name);
         user.setUsername(this.username);
-        user.setDataNasc(Date.valueOf(this.data_nasc));
-        user.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+        user.setData_nasc(Date.valueOf(this.data_nasc));
+        user.setCreated_on(new Timestamp(System.currentTimeMillis()));
         user.setLogin(this.login.toLogin());
 
         return user;
@@ -50,11 +50,11 @@ public class CreatedUserDto {
         this.username = username;
     }
 
-    public String getDataNasc() {
+    public String getData_nasc() {
         return data_nasc;
     }
 
-    public void setDataNasc(String data_nasc) {
+    public void setData_nasc(String data_nasc) {
         this.data_nasc = data_nasc;
     }
 
