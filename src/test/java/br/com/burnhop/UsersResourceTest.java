@@ -46,9 +46,6 @@ class UsersResourceTest {
 	@Autowired
 	private UsersRepository usersRepository;
 
-	@Autowired
-	private PostsRepository postsRepository;
-
 
     private CreatedUserDto makeUser(){
 		String name = "Test";
