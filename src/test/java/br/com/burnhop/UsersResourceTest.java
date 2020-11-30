@@ -16,8 +16,6 @@ import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.UsersRepository;
-import br.com.burnhop.repository.PostsRepository;
-import br.com.burnhop.api.controller.UserController;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
