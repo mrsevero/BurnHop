@@ -102,7 +102,7 @@ class GroupResourceTest {
 		saveUser("associateuser");
 		int id = getUserId("associateuser@email.com");
 
-		Groups group = new Groups("AssociateUser", new Timestamp(System.currentTimeMillis()));
+		Groups group = new Groups("AssociateUser", "Descrição", new Timestamp(System.currentTimeMillis()));
 		group.setAdmin(admin);
 		groupsRepository.save(group);
         Optional<Groups> groups = groupsRepository.findByName("AssociateUser");
@@ -125,7 +125,7 @@ class GroupResourceTest {
         saveUser("getallgroups");
 		Users admin = usersRepository.findByEmail("adminassociateuser@email.com");
 
-		Groups group = new Groups("GetAllGroups", new Timestamp(System.currentTimeMillis()));
+		Groups group = new Groups("GetAllGroups", "Descrição", new Timestamp(System.currentTimeMillis()));
 		group.setAdmin(admin);
         groupsRepository.save(group);
         
