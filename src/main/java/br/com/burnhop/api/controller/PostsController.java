@@ -72,7 +72,7 @@ public class PostsController {
         ArrayList<PostDto> postsFeed = new ArrayList<>();
 
         for(Posts post : posts_repository.findAll()) {
-            if(post.getGroup().getId() == -1)
+            if(post.getGroup() == null)
                 postsFeed.add(new PostDto(post));
         }
 
