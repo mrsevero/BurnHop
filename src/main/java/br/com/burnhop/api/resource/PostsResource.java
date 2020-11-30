@@ -164,6 +164,28 @@ public class PostsResource {
         }
     }
 
+    @GetMapping("/get-feed")
+    @ApiOperation(value = "Todos os Posts", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Posts retornados com sucesso"),
+            @ApiResponse(code = 204, message = "Não existe nenhum post salvo"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<ArrayList<PostDto>> getAllPostsFeed(){
+
+        try {
+            ArrayList<PostDto> todos_posts = postController.getAllPostsFeed();
+
+            if(todos_posts.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            return new ResponseEntity<>(todos_posts, HttpStatus.OK);
+
+        } catch (IllegalAccessError e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping("/update/{id}")
     @ApiOperation(value = "Retorna Post atualizado")
     @ApiResponses({
