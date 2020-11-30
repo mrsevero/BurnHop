@@ -25,6 +25,7 @@ import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
@@ -175,7 +176,7 @@ class UsersResourceTest {
 	}
 
 
-	/*
+	
 	@Test
 	void testSetImage() throws Exception{
 		String image_path = "example/example.jpg";
@@ -187,7 +188,7 @@ class UsersResourceTest {
 				.queryParam("imagePath", image_path))
                 .andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-	}*/
+	}
 
 	
 	
