@@ -15,6 +15,8 @@ import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
 import br.com.burnhop.repository.UsersRepository;
+import br.com.burnhop.repository.PostsRepository;
+import br.com.burnhop.api.controller.UserController;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,11 +45,37 @@ class UsersResourceTest {
 	@Autowired
 	private UsersRepository usersRepository;
 
+	@Autowired
+	private PostsRepository postsRepository;
+
+
     private CreatedUserDto makeUser(){
 		String name = "Test";
 		String username = "test";
 		String data_nasc = "2000-01-01";
 		String email = "test1@test.com";
+		String password = "12345";
+	
+		CreatedUserDto createdUserDto = new CreatedUserDto();
+		CreatedLoginDto createdLoginDto = new CreatedLoginDto();
+
+		createdLoginDto.setEmail(email);
+		createdLoginDto.setPassword(password);
+
+		createdUserDto.setLogin(createdLoginDto);
+		createdUserDto.setName(name);
+		createdUserDto.setUsername(username);
+		createdUserDto.setDataNasc(data_nasc);
+
+		return createdUserDto;
+	}
+
+	
+    private CreatedUserDto makeUserLogin(){
+		String name = "Test";
+		String username = "test";
+		String data_nasc = "2000-01-01";
+		String email = "login@test.com";
 		String password = "12345";
 	
 		CreatedUserDto createdUserDto = new CreatedUserDto();
@@ -159,36 +187,30 @@ class UsersResourceTest {
 				.queryParam("imagePath", image_path))
                 .andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-	}
+	}*/
 
 	
 	
 	@Test
 	void testLoginRequest() throws Exception{
-		
-		Date data_nasc = Date.valueOf("2000-01-01");
-		Timestamp created_on = new Timestamp(System.currentTimeMillis());
-		String email = "user_login@email.com";
+		String email = "login@test.com";
 		String password = "12345";
 		String wrongPassword = "123";
-	
-        Login login = new Login(email, password);
-        Users newUser = new Users("User", "user", data_nasc, created_on);
-        newUser.setLogin(login);
-		
-		loginRepository.save(newUser.getLogin());
-		usersRepository.save(newUser);
-		
-		//Não funciona por que ele tenta descriptografar a senha meeeeeeeeeeee
+		CreatedUserDto createdUserDto = makeUserLogin();
+
+		mockMvc.perform(post("/users")
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(createdUserDto)))
+				.andExpect(status().isOk());
 
 		mockMvc.perform(post("/users/login")
 				.header("email", email)
 				.header("password", password))
 				.andExpect(status().isOk());
-
+		
 		mockMvc.perform(post("/users/login")
 				.header("email", email)
 				.header("password", wrongPassword))
-				.andExpect(status().isUnauthorized());	
-	}*/
+				.andExpect(status().isUnauthorized());
+	}
 }
