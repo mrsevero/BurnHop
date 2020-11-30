@@ -78,12 +78,12 @@ class PostsResourceTest {
     @Test
     void testPosting() throws Exception{
         saveUser("posting");
-        CreatedPostDto createdPostDto = makePost("posting@email.com");
+		CreatedPostDto createdPostDto = makePost("posting@email.com");
 
 		mockMvc.perform(post("/posts")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(createdPostDto)))
-                .andExpect(status().isOk());
+				.andExpect(status().isOk());
     }
 
     
@@ -112,7 +112,8 @@ class PostsResourceTest {
 	void testGetPostsByUsers() throws Exception{
 		saveUser("getpostbyusers");
 		Users users = usersRepository.findByEmail("getpostbyusers@email.com");
-		int id = users.getId();;
+		int id = users.getId();
+		int notFoundId = 11111;
 
 		Content content = new Content();
 		content.setText("Getting posts by user");
@@ -128,6 +129,9 @@ class PostsResourceTest {
 		mockMvc.perform(get("/posts/user/{id}", id))
                 .andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+		mockMvc.perform(get("/posts/user/{id}", notFoundId))
+                .andExpect(status().isNotFound());
 	}
 
 }

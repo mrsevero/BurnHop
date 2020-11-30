@@ -121,7 +121,6 @@ class UsersResourceTest {
 		mockMvc.perform(get("/users/email/{email}", "getuserbyemail@email.com"))
                 .andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-		
 	}
 	
 	@Test
@@ -131,18 +130,20 @@ class UsersResourceTest {
 		mockMvc.perform(get("/users/get-all"))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-
-		//Testar limpar o banco
 	}
 
 	@Test
 	void testGetUserById() throws Exception{
 		saveUser("getuserbyid");
 		String id = String.valueOf(getUserId("getuserbyid@email.com"));
+		int notFoundId = 1111;
 
 		mockMvc.perform(get("/users/id/{id}", id))
                 .andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+				
+		mockMvc.perform(get("/users/id/{id}", notFoundId))
+                .andExpect(status().isNotFound());
 	}
 
 

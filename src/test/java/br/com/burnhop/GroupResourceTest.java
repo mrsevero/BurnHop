@@ -116,7 +116,19 @@ class GroupResourceTest {
 		mockMvc.perform(post("/groups/user")
 				.contentType("application/json")
 				.content(objectMapper.writeValueAsString(associatedUserGroupDto)))
-				.andExpect(status().isOk());
+                .andExpect(status().isOk());
+                
+        mockMvc.perform(post("/groups/user")
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(associatedUserGroupDto)))
+                .andExpect(status().isConflict());
+
+        associatedUserGroupDto.setUserId(1111);
+
+        mockMvc.perform(post("/groups/user")
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(associatedUserGroupDto)))
+                .andExpect(status().isNotFound());
     }
     
     
@@ -145,9 +157,13 @@ class GroupResourceTest {
         Optional<Groups> groups = groupsRepository.findByName("GetGroupById");
         GroupDto group_dto = groups.map(GroupDto::new).orElse(null);
         int id_group = group_dto.getId();
+        int notFoundId = 1111;
 
         mockMvc.perform(get("/groups/id/{id}", id_group))
                         .andExpect(status().isOk())
                         .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        
+        mockMvc.perform(get("/groups/id/{id}", notFoundId))
+                        .andExpect(status().isNotFound());
 	}
 }
