@@ -25,6 +25,7 @@ import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
@@ -133,5 +134,36 @@ class PostsResourceTest {
 		mockMvc.perform(get("/posts/user/{id}", notFoundId))
                 .andExpect(status().isNotFound());
 	}
+
+	/*
+	@Test
+	void testDeletePost() throws Exception{
+		saveUser("deletePost");
+		Users users = usersRepository.findByEmail("deletePost@email.com");
+		String id = String.valueOf(users.getId());
+		String notFoundId = "11111";
+
+		Content content = new Content();
+		content.setText("Deleting post");
+
+		Posts post = new Posts();
+		post.setContent(content);
+		post.setPostedOn(new Timestamp(System.currentTimeMillis()));
+		post.setUsers(users);
+
+		contentRepository.save(content);
+		postsRepository.save(post);
+
+		Posts savedPost = postsRepository.findById(id);
+		String postId = String.valueOf(savedPost.getId());
+
+		mockMvc.perform(delete("/posts/delete")
+				.queryParam("id", postId))
+				.andExpect(status().isOk());
+
+		mockMvc.perform(delete("/posts/delete")
+				.queryParam("id", notFoundId))
+				.andExpect(status().isNotFound());
+	}*/
 
 }

@@ -26,6 +26,7 @@ import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
@@ -165,5 +166,25 @@ class GroupResourceTest {
         
         mockMvc.perform(get("/groups/id/{id}", notFoundId))
                         .andExpect(status().isNotFound());
-	}
+    }
+    
+    @Test
+    void testDeleteGroup() throws Exception{
+        saveUser("deleteGroup");
+        Users admin = usersRepository.findByEmail("deleteGroup@email.com");
+        
+		Groups group = new Groups("DeleteGroup", "Descrição", new Timestamp(System.currentTimeMillis()));
+		group.setAdmin(admin);
+		groupsRepository.save(group);
+        Optional<Groups> groups = groupsRepository.findByName("DeleteGroup");
+        GroupDto group_dto = groups.map(GroupDto::new).orElse(null);
+        int id_group = group_dto.getId();
+        int notFoundId = 1111;
+
+        mockMvc.perform(delete("/groups/{id}", String.valueOf(id_group)))
+				.andExpect(status().isOk());
+
+		mockMvc.perform(delete("/groups/{id}", String.valueOf(notFoundId)))
+				.andExpect(status().isNotFound());
+    }
 }
