@@ -159,7 +159,7 @@ public class GroupsController {
 
     public void deleteAllPostsInGroup(int groupId) {
         for (Posts post : postsRepository.findAll()) {
-            if(post.getGroup().getId() == groupId)
+            if(post.getGroup() != null && post.getGroup().getId() == groupId)
                 postsRepository.deleteById(post.getId());
         }
     }
