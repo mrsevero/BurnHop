@@ -41,7 +41,7 @@ public class PostsResource {
                          UsersGroupsRepository usersGroups_repository){
         this.postController = new PostsController(post_repository, users_repository, content_repository, groups_repository);
         this.userController = new UserController(login_repository, users_repository, post_repository);
-        this.groupController = new GroupsController(groups_repository, users_repository, usersGroups_repository);
+        this.groupController = new GroupsController(groups_repository, users_repository, usersGroups_repository, post_repository);
     }
 
     @PostMapping()
@@ -153,6 +153,28 @@ public class PostsResource {
 
         try {
             ArrayList<PostDto> todos_posts = postController.getAllPosts();
+
+            if(todos_posts.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            return new ResponseEntity<>(todos_posts, HttpStatus.OK);
+
+        } catch (IllegalAccessError e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get-feed")
+    @ApiOperation(value = "Todos os Posts", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Posts retornados com sucesso"),
+            @ApiResponse(code = 204, message = "Não existe nenhum post salvo"),
+            @ApiResponse(code = 500, message = "Ocorreu um erro para processar a requisição")
+    })
+    public ResponseEntity<ArrayList<PostDto>> getAllPostsFeed(){
+
+        try {
+            ArrayList<PostDto> todos_posts = postController.getAllPostsFeed();
 
             if(todos_posts.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
