@@ -2,7 +2,6 @@ package br.com.burnhop.model.dto;
 
 import br.com.burnhop.model.Content;
 import br.com.burnhop.model.Posts;
-import br.com.burnhop.repository.UsersRepository;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Timestamp;
@@ -15,15 +14,17 @@ public class CreatedPostDto {
     @ApiModelProperty(value = "Uma String que representa data de nascimento do usuário", example = "2020-10-18")
     private String texto;
 
+    @ApiModelProperty(value = "Um inteiro que representa o id do grupo associado ao post", example = "5")
+    private int groupId;
+
     public CreatedPostDto() {
 
     }
 
-    public Posts toPost(UsersRepository usersRepository) {
+    public Posts toPost() {
         Posts post = new Posts();
         Content content = new Content();
         content.setText(texto);
-        post.setUsers(usersRepository.findByEmail(this.user_email));
         post.setPostedOn(new Timestamp(System.currentTimeMillis()));
         post.setContent(content);
 
@@ -44,5 +45,13 @@ public class CreatedPostDto {
 
     public String getTexto(){
         return this.texto;
+    }
+
+    public int getGroupId() {
+        return this.groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 }

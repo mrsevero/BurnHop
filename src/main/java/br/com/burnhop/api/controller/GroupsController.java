@@ -3,11 +3,12 @@ package br.com.burnhop.api.controller;
 import br.com.burnhop.model.UsersGroups;
 import br.com.burnhop.model.Groups;
 import br.com.burnhop.model.Users;
-import br.com.burnhop.model.dto.CreatedGroupDto;
-import br.com.burnhop.model.dto.GroupDto;
-import br.com.burnhop.model.dto.AssociatedUserGroupDto;
 import br.com.burnhop.model.dto.UserDto;
+import br.com.burnhop.model.dto.GroupDto;
+import br.com.burnhop.model.dto.CreatedGroupDto;
+import br.com.burnhop.model.dto.UpdatedGroupDto;
 import br.com.burnhop.model.dto.UsersGroupsDto;
+import br.com.burnhop.model.dto.AssociatedUserGroupDto;
 import br.com.burnhop.repository.GroupsRepository;
 import br.com.burnhop.repository.UsersGroupsRepository;
 import br.com.burnhop.repository.UsersRepository;
@@ -33,7 +34,9 @@ public class GroupsController {
         if(user.isPresent()) {
             GroupDto gpname = getGroupByName(newGroup.getName());
             if (gpname == null) {
-                Groups group = new Groups(newGroup.getName(), new Timestamp(System.currentTimeMillis()));
+                Groups group = new Groups(newGroup.getName(),
+                        newGroup.getDescription(),
+                        new Timestamp(System.currentTimeMillis()));
                 group.setAdmin(user.get());
                 groupsRepository.save(group);
 
@@ -100,17 +103,49 @@ public class GroupsController {
         return null;
     }
 
+    public GroupDto updateGroup(int id, GroupDto group, UpdatedGroupDto newGroup) {
+        Optional<Groups> possibleGroup = groupsRepository.findByName(newGroup.getName());
+
+        if(possibleGroup.isPresent())
+            return null;
+
+        String name = newGroup.getName().isEmpty() ?
+                group.getName() :
+                newGroup.getName();
+
+        String description = newGroup.getDescription().isEmpty() ?
+                group.getDescription() :
+                newGroup.getDescription();
+
+        Groups groupToUpdate = groupsRepository.findById(id).get();
+
+        groupToUpdate.setName(name);
+        groupToUpdate.setDescription(description);
+
+        Groups updatedGroup = groupsRepository.save(groupToUpdate);
+
+        return new GroupDto(updatedGroup);
+    }
+
     public boolean deleteGroup(int id) {
         Optional <Groups> group = groupsRepository.findById(id);
 
         if(group.isPresent()) {
             Groups groupToDelete = group.get();
 
+            deleteAllUsersInGroup(id);
             groupsRepository.deleteById(groupToDelete.getId());
             return true;
         }
 
         return false;
 
+    }
+
+    public void deleteAllUsersInGroup(int groupId) {
+        for (UsersGroups group : usersGroupsRepository.findAll()) {
+            if(group.getGroup().getId() == groupId)
+                usersGroupsRepository.deleteById(group.getIdUsersGroups());
+        }
     }
 }

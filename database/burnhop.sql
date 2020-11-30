@@ -29,10 +29,13 @@ CREATE TABLE content(
 CREATE TABLE posts(
 	id_post INTEGER PRIMARY KEY,
 	user_id	INTEGER NOT NULL,
+	group_id INTEGER,
 	posted_on TIMESTAMP NOT NULL,
 	content_id INTEGER NOT NULL,
 	FOREIGN KEY(user_id) REFERENCES users(id),
-	FOREIGN KEY(content_id) REFERENCES content(id_content)
+	FOREIGN KEY(content_id) REFERENCES content(id_content),
+	FOREIGN KEY(group_id) REFERENCES groups(id_groups)
+
 );
 
 CREATE TABLE comments(
@@ -49,6 +52,7 @@ CREATE TABLE groups(
     id_groups INTEGER PRIMARY KEY,
     admin_id INTEGER NOT NULL,
     name VARCHAR(500) NOT NULL,
+    description VARCHAR(2000),
     created_group_on TIMESTAMP NOT NULL,
     FOREIGN KEY (admin_id) REFERENCES users(id)
 );
