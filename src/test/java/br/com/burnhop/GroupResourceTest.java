@@ -133,4 +133,21 @@ class GroupResourceTest {
                 .andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
+
+    @Test
+	void testGetGroupById() throws Exception{
+		saveUser("getgroupbyid");
+        Users admin = usersRepository.findByEmail("getgroupbyid@email.com");
+        
+		Groups group = new Groups("GetGroupById", "Descrição", new Timestamp(System.currentTimeMillis()));
+		group.setAdmin(admin);
+		groupsRepository.save(group);
+        Optional<Groups> groups = groupsRepository.findByName("GetGroupById");
+        GroupDto group_dto = groups.map(GroupDto::new).orElse(null);
+        int id_group = group_dto.getId();
+
+        mockMvc.perform(get("/groups/id/{id}", id_group))
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+	}
 }
