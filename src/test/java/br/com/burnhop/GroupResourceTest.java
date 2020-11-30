@@ -22,9 +22,12 @@ import br.com.burnhop.repository.GroupsRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -116,9 +119,18 @@ class GroupResourceTest {
 				.andExpect(status().isOk());
     }
     
-    /*
+    
     @Test
-    void testGetAllGroupsByUser() throws Exception{
+    void testGetAllGroups() throws Exception{
+        saveUser("getallgroups");
+		Users admin = usersRepository.findByEmail("adminassociateuser@email.com");
 
-    }*/
+		Groups group = new Groups("GetAllGroups", new Timestamp(System.currentTimeMillis()));
+		group.setAdmin(admin);
+        groupsRepository.save(group);
+        
+        mockMvc.perform(get("/groups/get-all"))
+                .andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
 }
