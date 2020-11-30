@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.burnhop.model.dto.CreatedLoginDto;
 import br.com.burnhop.model.dto.CreatedUserDto;
+import br.com.burnhop.model.dto.UpdatedUserDto;
 import br.com.burnhop.model.Login;
 import br.com.burnhop.model.Users;
 import br.com.burnhop.repository.LoginRepository;
@@ -219,5 +220,30 @@ class UsersResourceTest {
 				.header("email", email)
 				.header("password", wrongPassword))
 				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	void testUpdateuser() throws Exception{
+		saveUser("updateUser");
+		String id = String.valueOf(getUserId("updateUser@email.com"));
+		String notFoundId = "111111";
+		UpdatedUserDto updatedUserDto = new UpdatedUserDto();
+
+		updatedUserDto.setEmail("updatedUser@email.com");
+		updatedUserDto.setDataNasc("2000-01-01");
+		updatedUserDto.setName("updatedUser");
+		updatedUserDto.setUsername("updatedUser");
+
+		mockMvc.perform(put("/users/update/{id}", id)
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(updatedUserDto)))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+		mockMvc.perform(put("/users/update/{id}", notFoundId)
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(updatedUserDto)))
+				.andExpect(status().isNotFound());
+
 	}
 }
