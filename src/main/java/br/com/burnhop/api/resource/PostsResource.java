@@ -41,7 +41,7 @@ public class PostsResource {
                          UsersGroupsRepository usersGroups_repository){
         this.postController = new PostsController(post_repository, users_repository, content_repository, groups_repository);
         this.userController = new UserController(login_repository, users_repository, post_repository);
-        this.groupController = new GroupsController(groups_repository, users_repository, usersGroups_repository);
+        this.groupController = new GroupsController(groups_repository, users_repository, usersGroups_repository, post_repository);
     }
 
     @PostMapping()

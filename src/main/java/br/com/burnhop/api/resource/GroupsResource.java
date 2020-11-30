@@ -46,7 +46,7 @@ public class GroupsResource {
                           UsersGroupsRepository usersGroupsRepository,
                           LoginRepository loginRepository,
                           PostsRepository postsRepository){
-        this.groupsController = new GroupsController(groupsRepository, usersRepository, usersGroupsRepository);
+        this.groupsController = new GroupsController(groupsRepository, usersRepository, usersGroupsRepository, postsRepository);
         this.userController = new UserController(loginRepository, usersRepository, postsRepository);
     }
 
