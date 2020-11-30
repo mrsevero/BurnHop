@@ -1,5 +1,6 @@
 package br.com.burnhop.api.controller;
 
+import br.com.burnhop.model.Posts;
 import br.com.burnhop.model.UsersGroups;
 import br.com.burnhop.model.Groups;
 import br.com.burnhop.model.Users;
@@ -10,6 +11,7 @@ import br.com.burnhop.model.dto.UpdatedGroupDto;
 import br.com.burnhop.model.dto.UsersGroupsDto;
 import br.com.burnhop.model.dto.AssociatedUserGroupDto;
 import br.com.burnhop.repository.GroupsRepository;
+import br.com.burnhop.repository.PostsRepository;
 import br.com.burnhop.repository.UsersGroupsRepository;
 import br.com.burnhop.repository.UsersRepository;
 
@@ -22,11 +24,16 @@ public class GroupsController {
     private final GroupsRepository groupsRepository;
     private final UsersRepository usersRepository;
     private final UsersGroupsRepository usersGroupsRepository;
+    private final PostsRepository postsRepository;
 
-    public GroupsController(GroupsRepository groupsRepository, UsersRepository usersRepository, UsersGroupsRepository usersGroupsRepository){
+    public GroupsController(GroupsRepository groupsRepository,
+                            UsersRepository usersRepository,
+                            UsersGroupsRepository usersGroupsRepository,
+                            PostsRepository postsRepository){
         this.groupsRepository = groupsRepository;
         this.usersRepository = usersRepository;
         this.usersGroupsRepository = usersGroupsRepository;
+        this.postsRepository = postsRepository;
     }
 
     public GroupDto createGroup(CreatedGroupDto newGroup) {
@@ -134,6 +141,7 @@ public class GroupsController {
             Groups groupToDelete = group.get();
 
             deleteAllUsersInGroup(id);
+            deleteAllPostsInGroup(id);
             groupsRepository.deleteById(groupToDelete.getId());
             return true;
         }
@@ -146,6 +154,13 @@ public class GroupsController {
         for (UsersGroups group : usersGroupsRepository.findAll()) {
             if(group.getGroup().getId() == groupId)
                 usersGroupsRepository.deleteById(group.getIdUsersGroups());
+        }
+    }
+
+    public void deleteAllPostsInGroup(int groupId) {
+        for (Posts post : postsRepository.findAll()) {
+            if(post.getGroup() != null && post.getGroup().getId() == groupId)
+                postsRepository.deleteById(post.getId());
         }
     }
 }

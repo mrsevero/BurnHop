@@ -68,6 +68,17 @@ public class PostsController {
         return posts;
     }
 
+    public ArrayList<PostDto> getAllPostsFeed() {
+        ArrayList<PostDto> postsFeed = new ArrayList<>();
+
+        for(Posts post : posts_repository.findAll()) {
+            if(post.getGroup() == null)
+                postsFeed.add(new PostDto(post));
+        }
+
+        return postsFeed;
+    }
+
     public ArrayList<PostDto> getAllPostsByUser(UserDto user) {
         ArrayList<PostDto> posts = new ArrayList<>();
 
