@@ -26,6 +26,7 @@ import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
@@ -125,23 +126,22 @@ class UsersResourceTest {
 				.content(objectMapper.writeValueAsString(createdUserDto)))
 				.andExpect(status().isConflict());
 	}
-	/*
+	
 	@Test
 	void testDeleteUser() throws Exception{
 		saveUser("deleteuser");
 		String id = String.valueOf(getUserId("deleteuser@email.com"));
+		String notFoundId = "111111";
 
-		mockMvc.perform(MockMvcRequestBuilders
-			    .delete("/users")
+		mockMvc.perform(delete("/users")
 				.queryParam("id", id))
 				.andExpect(status().isOk());
 
-		mockMvc.perform(MockMvcRequestBuilders
-			    .delete("/users")
-				.queryParam("id", id))
+		mockMvc.perform(delete("/users")
+				.queryParam("id", notFoundId))
 				.andExpect(status().isNotFound());
 
-	}*/
+	}
   	
 	@Test
     void testGetUserByEmail() throws Exception{
@@ -182,12 +182,18 @@ class UsersResourceTest {
 		String image_path = "example/example.jpg";
 		saveUser("setImage");
 		String id = String.valueOf(getUserId("setImage@email.com"));
+		String notFoundId = "1111111";
 
 		mockMvc.perform(put("/users/image")
 				.queryParam("id", id)
 				.queryParam("imagePath", image_path))
                 .andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+		mockMvc.perform(put("/users/image")
+				.queryParam("id", notFoundId)
+				.queryParam("imagePath", image_path))
+                .andExpect(status().isNotFound());
 	}
 
 	
